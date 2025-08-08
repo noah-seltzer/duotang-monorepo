@@ -1,0 +1,16 @@
+{
+  "compatibility_date": "2025-04-01",
+  "main": "src/index.ts",
+  "name": "horizon-worker",
+  "upload_source_maps": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_id": "51e3aba8-7a36-4603-b4de-6927f30cce87",
+      "database_name": "d1-horizon-database"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
