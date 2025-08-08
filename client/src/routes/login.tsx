@@ -15,5 +15,8 @@ function About() {
         })
     }
 
-    return <div className='p-2'>Login Page</div>
+    return <div className='p-2'>
+        Login Page 
+        <button onClick={handleLogin}>Login</button>
+    </div>
 }

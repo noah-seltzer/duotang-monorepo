@@ -11,10 +11,11 @@ import { LogLevel, type Configuration as MSALConfirguration } from "@azure/msal-
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md 
  */
 
+
 export const msalConfig: MSALConfirguration = {
     auth: {
-        clientId: import.meta.env.VITE_APP_CLIENT_ID, // This is the ONLY mandatory field that you need to supply.
-        authority: `https://login.microsoftonline.com/${import.meta.env.VITE_APP_TENANT_ID}`,
+        clientId: import.meta.env.VITE_MS_CLIENT_ID, // This is the ONLY mandatory field that you need to supply.
+        authority: `https://login.microsoftonline.com/${import.meta.env.VITE_MS_TENANT_ID}`,
         redirectUri: "http://localhost:3000",
     },
     cache: {

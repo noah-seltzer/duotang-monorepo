@@ -37,6 +37,8 @@ export const DocumentTable: FC<DocumentTableProps> = () => {
         newRows[idx] = row
         setRows(newRows)
     }
+
+
     return (
         <div>
             <ClientInput

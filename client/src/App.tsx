@@ -23,11 +23,8 @@ function App() {
             )
         )
     }
-    return (
-        <>
-            <DocumentTable rows={rows} onRowChange={handleRowChange} />
-        </>
-    )
+    return <DocumentTable rows={rows} onRowChange={handleRowChange} />
+     
 }
 
 export default App
