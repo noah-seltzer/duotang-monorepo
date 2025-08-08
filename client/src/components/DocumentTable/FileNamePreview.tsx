@@ -8,7 +8,7 @@ interface FileNamePreviewProps {
     index: number
 }
 
-const getFileExtension = (file: File) => file.name.split('.').pop()
+// const getFileExtension = (file: File) => file.name.split('.').pop()
 
 export const FileNamePreview: FC<FileNamePreviewProps> = ({
     fileInfo,
