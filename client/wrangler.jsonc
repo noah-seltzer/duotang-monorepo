@@ -1,0 +1,4 @@
+{
+    "name": "horizon-file-organizer",
+    "pages_build_output_dir": "./dist"
+}
