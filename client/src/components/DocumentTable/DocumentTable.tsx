@@ -3,6 +3,7 @@ import { ClientInput } from '../ClientInput/ClientInput'
 import { Header, HeaderRow } from '../Table/TableStyles'
 import { type FileInfo, FileRow } from './FileRow'
 import type { DocumentRowState } from './DocumentRow.interface'
+import { FileSourceSelector } from '../ClientInput/FileSourceSelector'
 // test
 export interface DocumentTableProps {
     rows: DocumentRowState[]
@@ -15,10 +16,12 @@ export interface DocumentTableProps {
 
 export const DocumentTable: FC<DocumentTableProps> = () => {
     const [clientInfo, setClientInfo] = useState({
-        firstName: 'Igor',
-        lastName: 'Kovalenko',
+        firstName: 'Noah',
+        lastName: 'Seltzer',
         jobTitle: 'Second Engineer'
     })
+
+    const [fileSource, setFileSource] = useState<string>('local')
 
     const [rows, setRows] = useState<FileInfo[]>([
         { id: 1, docType: '', file: null, maradFile: null }
@@ -38,9 +41,9 @@ export const DocumentTable: FC<DocumentTableProps> = () => {
         setRows(newRows)
     }
 
-
     return (
         <div>
+            <FileSourceSelector onRadioButtonClicked={setFileSource} selectedOption={fileSource} />
             <ClientInput
                 clientInfo={clientInfo}
                 handleClientInfoChange={setClientInfo}
@@ -64,6 +67,7 @@ export const DocumentTable: FC<DocumentTableProps> = () => {
                                 clientInfo={clientInfo}
                                 key={r.id}
                                 row={r}
+                                selectedOption={fileSource}
                             />
                         ))}
                     </tbody>

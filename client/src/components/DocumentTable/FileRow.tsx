@@ -17,14 +17,16 @@ export interface FileRowProps {
     row: FileInfo
     clientInfo: ClientInfo
     onRowChange: (updatedRow: FileInfo) => void
-    index: number
+    index: number,
+    selectedOption: string
 }
 
 export const FileRow: FC<FileRowProps> = ({
     row,
     onRowChange,
     clientInfo,
-    index
+    index,
+    selectedOption
 }) => {
     const hasFile = row.docType && row.file
     const statusClassName = hasFile ? 'status-complete' : 'status-incomplete'
@@ -60,7 +62,7 @@ export const FileRow: FC<FileRowProps> = ({
             </TableData>
             {/* Assigned File */}
             <TableData>
-                {documentInfo ? (
+                {documentInfo && selectedOption === 'local' ? (
                     <>
                         <FileInput
                             onChange={(files) =>
@@ -77,6 +79,13 @@ export const FileRow: FC<FileRowProps> = ({
                         ) : (
                             ''
                         )}
+                    </>
+                ) : (
+                    ''
+                )}
+                {documentInfo && selectedOption === 'onedrive' ? (
+                    <>
+                        <button className='btn btn primary' />
                     </>
                 ) : (
                     ''
