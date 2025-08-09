@@ -1,5 +1,3 @@
-import type { FC } from 'react'
-
 export interface ClientInfo {
     firstName: string
     lastName: string
@@ -10,10 +8,10 @@ export interface ClientInputProps {
     handleClientInfoChange: (info: ClientInfo) => void
 }
 
-export const ClientInput: FC<ClientInputProps> = ({
+export function ClientInput({
     clientInfo: { firstName, lastName, jobTitle },
     handleClientInfoChange
-}) => {
+}: ClientInputProps) {
     return (
         <div className='client-info'>
             <input

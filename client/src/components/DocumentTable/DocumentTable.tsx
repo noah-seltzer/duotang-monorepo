@@ -1,20 +1,14 @@
-import { useState, type FC } from 'react'
+import { useState } from 'react'
 import { ClientInput } from '../ClientInput/ClientInput'
-import { Header, HeaderRow } from '../Table/TableStyles'
+import { Header, HeaderCell } from '../Table/TableStyles'
 import { type FileInfo, FileRow } from './FileRow'
-import type { DocumentRowState } from './DocumentRow.interface'
 import { FileSourceSelector } from '../ClientInput/FileSourceSelector'
-// test
-export interface DocumentTableProps {
-    rows: DocumentRowState[]
-    onRowChange: (
-        id: number,
-        field: 'docType' | 'file',
-        value: string | File
-    ) => void
+
+export const createBlankRow = (index: number = 0) => {
+    return { id: index + 1, docType: '', file: null, maradFile: null }
 }
 
-export const DocumentTable: FC<DocumentTableProps> = () => {
+export function DocumentTable(): React.JSX.Element {
     const [clientInfo, setClientInfo] = useState({
         firstName: 'Noah',
         lastName: 'Seltzer',
@@ -23,27 +17,23 @@ export const DocumentTable: FC<DocumentTableProps> = () => {
 
     const [fileSource, setFileSource] = useState<string>('local')
 
-    const [rows, setRows] = useState<FileInfo[]>([
-        { id: 1, docType: '', file: null, maradFile: null }
-    ])
+    const [rows, setRows] = useState<FileInfo[]>([createBlankRow()])
 
     const addRow = () => {
-        setRows([
-            ...rows,
-            { id: rows.length + 1, docType: '', file: null, maradFile: null }
-        ])
+        setRows([...rows, createBlankRow(rows.length + 1)])
     }
 
     const onRowChange = (row: FileInfo) => {
-        const idx = rows.findIndex((r) => r.id === row.id)
-        const newRows = [...rows]
-        newRows[idx] = row
+        const newRows = rows.map((r) => (r.id === row.id ? row : r))
         setRows(newRows)
     }
 
     return (
         <div>
-            <FileSourceSelector onRadioButtonClicked={setFileSource} selectedOption={fileSource} />
+            <FileSourceSelector
+                onRadioButtonClicked={setFileSource}
+                selectedOption={fileSource}
+            />
             <ClientInput
                 clientInfo={clientInfo}
                 handleClientInfoChange={setClientInfo}
@@ -51,11 +41,11 @@ export const DocumentTable: FC<DocumentTableProps> = () => {
             <div className='relative overflow-x-auto'>
                 <table className='table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
                     <Header>
-                        <HeaderRow>Status</HeaderRow>
-                        <HeaderRow>Document Type</HeaderRow>
-                        <HeaderRow>Assigned File</HeaderRow>
-                        <HeaderRow>Filename Preview</HeaderRow>
-                        <HeaderRow>File Preview</HeaderRow>
+                        <HeaderCell>Status</HeaderCell>
+                        <HeaderCell>Document Type</HeaderCell>
+                        <HeaderCell>Assigned File</HeaderCell>
+                        <HeaderCell>Filename Preview</HeaderCell>
+                        <HeaderCell>File Preview</HeaderCell>
                     </Header>
                     <tbody>
                         {rows.map((r, i) => (

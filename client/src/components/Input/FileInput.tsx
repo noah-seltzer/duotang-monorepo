@@ -1,11 +1,11 @@
-import { useRef, type FC } from 'react'
+import { useRef } from 'react'
 
 interface FileInputProps {
     onChange: (files: FileList | null) => void
     title?: string
 }
 
-export const FileInput: FC<FileInputProps> = ({ onChange, title }) => {
+export function FileInput({ onChange, title }: FileInputProps): React.JSX.Element {
     const fileInputRef = useRef<HTMLInputElement>(null)
     return (
         <>

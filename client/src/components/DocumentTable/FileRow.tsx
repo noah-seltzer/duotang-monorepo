@@ -1,10 +1,9 @@
-import { type FC } from 'react'
-import { TableData, TableRow } from '../Table/TableStyles'
+import { TableCell, TableRow } from '../Table/TableStyles'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
 import type { ClientInfo } from '../ClientInput/ClientInput'
-import { FilePreview } from './FilePreview'
+import { FilePreviews } from './FilePreview'
 
 export interface FileInfo {
     id: number
@@ -17,17 +16,17 @@ export interface FileRowProps {
     row: FileInfo
     clientInfo: ClientInfo
     onRowChange: (updatedRow: FileInfo) => void
-    index: number,
+    index: number
     selectedOption: string
 }
 
-export const FileRow: FC<FileRowProps> = ({
+export function FileRow({
     row,
     onRowChange,
     clientInfo,
     index,
     selectedOption
-}) => {
+}: FileRowProps) {
     const hasFile = row.docType && row.file
     const statusClassName = hasFile ? 'status-complete' : 'status-incomplete'
 
@@ -41,11 +40,11 @@ export const FileRow: FC<FileRowProps> = ({
     return (
         <TableRow>
             {/* Status */}
-            <TableData className={hasFile ? 'text-green-500' : 'text-red-500'}>
+            <TableCell className={hasFile ? 'text-green-500' : 'text-red-500'}>
                 {statusClassName}
-            </TableData>
+            </TableCell>
             {/* Document Type */}
-            <TableData>
+            <TableCell>
                 <select
                     value={row.docType}
                     onChange={(e) =>
@@ -59,9 +58,9 @@ export const FileRow: FC<FileRowProps> = ({
                         </option>
                     ))}
                 </select>
-            </TableData>
+            </TableCell>
             {/* Assigned File */}
-            <TableData>
+            <TableCell>
                 {documentInfo && selectedOption === 'local' ? (
                     <>
                         <FileInput
@@ -90,18 +89,19 @@ export const FileRow: FC<FileRowProps> = ({
                 ) : (
                     ''
                 )}
-            </TableData>
+            </TableCell>
             {/* Filename Preview */}
-            <TableData>
+            <TableCell>
                 <FileNamePreview
                     index={index}
                     fileInfo={row}
                     clientInfo={clientInfo}
                 />
-            </TableData>
+            </TableCell>
             {/* File Preview */}
-            <TableData><FilePreview files={files} /></TableData>
-            {/* <TableData>{JSON.stringify(documentInfo)}</TableData> */}
+            <TableCell>
+                <FilePreviews files={files} />
+            </TableCell>
         </TableRow>
     )
 }
