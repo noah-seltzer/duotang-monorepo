@@ -1,39 +1,27 @@
-import { type FC } from 'react'
-import { TableData, TableRow } from '../Table/TableStyles'
+import { TableCell, TableRow } from '../Table/TableComponents'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
-import type { ClientInfo } from '../ClientInput/ClientInput'
-import { FilePreview } from './FilePreview'
-
-export interface FileInfo {
-    id: number
-    docType: string
-    file: FileList | null
-    maradFile: FileList | null
-}
+import { FilePreviews } from './FilePreview'
+import type { ClientInfo } from '../../types/ClientInfo'
+import type { FileInfo } from '../../types/FileInfo'
 
 export interface FileRowProps {
     row: FileInfo
     clientInfo: ClientInfo
     onRowChange: (updatedRow: FileInfo) => void
-    index: number,
+    index: number
     selectedOption: string
 }
 
-export const FileRow: FC<FileRowProps> = ({
+export function FileRow({
     row,
     onRowChange,
     clientInfo,
     index,
     selectedOption
-}) => {
-    const hasFile = row.docType && row.file
-    const statusClassName = hasFile ? 'status-complete' : 'status-incomplete'
-
-    const documentInfo = DOCUMENT_TYPES.find(
-        (type) => type.name === row.docType
-    )
+}: FileRowProps) {
+    const statusClassName = row.file ? 'status-complete' : 'status-incomplete'
 
     const files = Array.from(row.file || [])
     if (row.maradFile) files.push(row.maradFile[0])
@@ -41,35 +29,32 @@ export const FileRow: FC<FileRowProps> = ({
     return (
         <TableRow>
             {/* Status */}
-            <TableData className={hasFile ? 'text-green-500' : 'text-red-500'}>
+            <TableCell className={row.file ? 'text-green-500' : 'text-red-500'}>
                 {statusClassName}
-            </TableData>
+            </TableCell>
             {/* Document Type */}
-            <TableData>
+            <TableCell>
                 <select
-                    value={row.docType}
-                    onChange={(e) =>
-                        onRowChange({ ...row, docType: e.target.value })
-                    }
+                    value={row.docType.slug}
                 >
                     <option value=''>-- Select a document --</option>
                     {DOCUMENT_TYPES.map((type) => (
-                        <option key={type.slug} value={type.name}>
+                        <option onSelect={() => onRowChange({...row, docType: type})} key={type.slug} value={type.slug}>
                             {type.name}
                         </option>
                     ))}
                 </select>
-            </TableData>
+            </TableCell>
             {/* Assigned File */}
-            <TableData>
-                {documentInfo && selectedOption === 'local' ? (
+            <TableCell>
+                {selectedOption === 'local' ? (
                     <>
                         <FileInput
                             onChange={(files) =>
                                 onRowChange({ ...row, file: files })
                             }
                         />
-                        {documentInfo.marad ? (
+                        {row.docType.marad ? (
                             <FileInput
                                 title='Add Marad File'
                                 onChange={(files) =>
@@ -83,25 +68,26 @@ export const FileRow: FC<FileRowProps> = ({
                 ) : (
                     ''
                 )}
-                {documentInfo && selectedOption === 'onedrive' ? (
+                {selectedOption === 'onedrive' ? (
                     <>
                         <button className='btn btn primary' />
                     </>
                 ) : (
                     ''
                 )}
-            </TableData>
+            </TableCell>
             {/* Filename Preview */}
-            <TableData>
+            <TableCell>
                 <FileNamePreview
                     index={index}
                     fileInfo={row}
                     clientInfo={clientInfo}
                 />
-            </TableData>
+            </TableCell>
             {/* File Preview */}
-            <TableData><FilePreview files={files} /></TableData>
-            {/* <TableData>{JSON.stringify(documentInfo)}</TableData> */}
+            <TableCell>
+                <FilePreviews files={files} />
+            </TableCell>
         </TableRow>
     )
 }

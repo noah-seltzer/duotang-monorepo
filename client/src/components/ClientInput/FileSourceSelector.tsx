@@ -3,11 +3,16 @@ interface FileSourceSelectorProps {
     onRadioButtonClicked: (e: string) => void
 }
 
+
+/**
+ * To be destroyed. radio buttons to select onedrive or local files
+ * @param selectedOption currently selected option in react state
+ * @param onRadioButtonClicked react state setter for selected option. to be called onchange 
+ */
 export function FileSourceSelector({selectedOption, onRadioButtonClicked}: FileSourceSelectorProps): React.JSX.Element {
 
     return (
         <>
-            {/* TODO REFACTOR THIS TO REUSE A COMPONENT */}
             <div className='flex items-center mb-4'>
                 <input
                     id='default-radio-1'

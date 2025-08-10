@@ -8,9 +8,6 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-    // define: {
-    //     __
-    // },
     plugins: [
         react(),
         tailwindcss(),

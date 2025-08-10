@@ -1,20 +1,20 @@
-import type { FC } from 'react'
-import type { ClientInfo } from '../ClientInput/ClientInput'
-import type { FileInfo } from './FileRow'
 import { createFileNamePreviews } from '../../util/file-names'
+import type { ClientInfo } from '../../types/ClientInfo'
+import type { FileInfo } from '../../types/FileInfo'
 interface FileNamePreviewProps {
     fileInfo: FileInfo
     clientInfo: ClientInfo
     index: number
 }
 
-// const getFileExtension = (file: File) => file.name.split('.').pop()
-
-export const FileNamePreview: FC<FileNamePreviewProps> = ({
+/**
+ * Displays the computed filenames the system will use on export of a file
+ */
+export function FileNamePreview({
     fileInfo,
     clientInfo,
     index
-}) => {
+}: FileNamePreviewProps) {
     if (!fileInfo.file) return 'None'
 
     return createFileNamePreviews(fileInfo, clientInfo, index)

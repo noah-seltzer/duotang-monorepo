@@ -1,23 +1,23 @@
-import type { FC } from 'react'
+import type { ClientInfo } from "../../types/ClientInfo"
+import { TextInput } from "../Input/TextInput"
 
-export interface ClientInfo {
-    firstName: string
-    lastName: string
-    jobTitle: string
-}
 export interface ClientInputProps {
     clientInfo: ClientInfo
     handleClientInfoChange: (info: ClientInfo) => void
 }
 
-export const ClientInput: FC<ClientInputProps> = ({
+/**
+ * Form for information about the client who the documents are for
+ * @param clientInfo react state for client info
+ * @param handleClientInfoChange react state setter for client info 
+ */
+export function ClientInput({
     clientInfo: { firstName, lastName, jobTitle },
     handleClientInfoChange
-}) => {
+}: ClientInputProps) {
     return (
         <div className='client-info'>
-            <input
-                type='text'
+            <TextInput
                 name='firstName'
                 placeholder='Client First Name'
                 value={firstName}
@@ -29,8 +29,7 @@ export const ClientInput: FC<ClientInputProps> = ({
                     })
                 }}
             />
-            <input
-                type='text'
+            <TextInput
                 name='lastName'
                 placeholder='Client Last Name'
                 value={lastName}
@@ -42,8 +41,7 @@ export const ClientInput: FC<ClientInputProps> = ({
                     })
                 }}
             />
-            <input
-                type='text'
+            <TextInput
                 name='Client Job Title'
                 placeholder='Client Job Title'
                 value={jobTitle}
