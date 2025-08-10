@@ -1,4 +1,5 @@
 import type { ClientInfo } from "../../types/ClientInfo"
+import { TextInput } from "../Input/TextInput"
 
 export interface ClientInputProps {
     clientInfo: ClientInfo
@@ -11,8 +12,7 @@ export function ClientInput({
 }: ClientInputProps) {
     return (
         <div className='client-info'>
-            <input
-                type='text'
+            <TextInput
                 name='firstName'
                 placeholder='Client First Name'
                 value={firstName}
@@ -24,8 +24,7 @@ export function ClientInput({
                     })
                 }}
             />
-            <input
-                type='text'
+            <TextInput
                 name='lastName'
                 placeholder='Client Last Name'
                 value={lastName}
@@ -37,8 +36,7 @@ export function ClientInput({
                     })
                 }}
             />
-            <input
-                type='text'
+            <TextInput
                 name='Client Job Title'
                 placeholder='Client Job Title'
                 value={jobTitle}
