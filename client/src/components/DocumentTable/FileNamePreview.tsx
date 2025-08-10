@@ -7,6 +7,9 @@ interface FileNamePreviewProps {
     index: number
 }
 
+/**
+ * Displays the computed filenames the system will use on export of a file
+ */
 export function FileNamePreview({
     fileInfo,
     clientInfo,

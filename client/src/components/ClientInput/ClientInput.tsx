@@ -6,6 +6,11 @@ export interface ClientInputProps {
     handleClientInfoChange: (info: ClientInfo) => void
 }
 
+/**
+ * Form for information about the client who the documents are for
+ * @param clientInfo react state for client info
+ * @param handleClientInfoChange react state setter for client info 
+ */
 export function ClientInput({
     clientInfo: { firstName, lastName, jobTitle },
     handleClientInfoChange

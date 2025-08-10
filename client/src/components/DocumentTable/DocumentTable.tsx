@@ -3,17 +3,25 @@ import { ClientInput } from '../ClientInput/ClientInput'
 import { Header, HeaderCell } from '../Table/TableComponents'
 import { type FileInfo, FileRow } from './FileRow'
 import { FileSourceSelector } from '../ClientInput/FileSourceSelector'
+import { Table } from '../Table/Table'
 
 export const createBlankRow = (index: number = 0) => {
     return { id: index + 1, docType: '', file: null, maradFile: null }
 }
 
+export const STARTING_CLIENT_INFO = {
+    firstName: 'Noah',
+    lastName: 'Seltzer',
+    jobTitle: 'Second Engineer'
+}
+
+const rowNames = ['Status', 'Document', 'Assigned', 'Filename', 'File']
+
+/**
+ * Outermost parent for the spreadsheet-like document table
+ */
 export function DocumentTable(): React.JSX.Element {
-    const [clientInfo, setClientInfo] = useState({
-        firstName: 'Noah',
-        lastName: 'Seltzer',
-        jobTitle: 'Second Engineer'
-    })
+    const [clientInfo, setClientInfo] = useState(STARTING_CLIENT_INFO)
 
     const [fileSource, setFileSource] = useState<string>('local')
 
@@ -28,6 +36,17 @@ export function DocumentTable(): React.JSX.Element {
         setRows(newRows)
     }
 
+    const rowElements = rows.map((r, i) => (
+        <FileRow
+            index={i + 1}
+            onRowChange={(row: FileInfo) => onRowChange(row)}
+            clientInfo={clientInfo}
+            key={r.id}
+            row={r}
+            selectedOption={fileSource}
+        />
+    ))
+
     return (
         <div>
             <FileSourceSelector
@@ -39,29 +58,7 @@ export function DocumentTable(): React.JSX.Element {
                 handleClientInfoChange={setClientInfo}
             />
             <div className='relative overflow-x-auto'>
-                <table className='table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
-                    <Header>
-                        <HeaderCell>Status</HeaderCell>
-                        <HeaderCell>Document Type</HeaderCell>
-                        <HeaderCell>Assigned File</HeaderCell>
-                        <HeaderCell>Filename Preview</HeaderCell>
-                        <HeaderCell>File Preview</HeaderCell>
-                    </Header>
-                    <tbody>
-                        {rows.map((r, i) => (
-                            <FileRow
-                                index={i + 1}
-                                onRowChange={(row: FileInfo) =>
-                                    onRowChange(row)
-                                }
-                                clientInfo={clientInfo}
-                                key={r.id}
-                                row={r}
-                                selectedOption={fileSource}
-                            />
-                        ))}
-                    </tbody>
-                </table>
+                <Table rowNames={rowNames} rows={rowElements} />
             </div>
             <div className='flex justify-left mt-2'>
                 <button className='btn btn-secondary' onClick={addRow}>
