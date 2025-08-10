@@ -7,7 +7,6 @@ export function FileSourceSelector({selectedOption, onRadioButtonClicked}: FileS
 
     return (
         <>
-            {/* TODO REFACTOR THIS TO REUSE A COMPONENT */}
             <div className='flex items-center mb-4'>
                 <input
                     id='default-radio-1'

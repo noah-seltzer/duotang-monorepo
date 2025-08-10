@@ -1,8 +1,5 @@
-export interface ClientInfo {
-    firstName: string
-    lastName: string
-    jobTitle: string
-}
+import type { ClientInfo } from "../../types/ClientInfo"
+
 export interface ClientInputProps {
     clientInfo: ClientInfo
     handleClientInfoChange: (info: ClientInfo) => void

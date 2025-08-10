@@ -1,4 +1,4 @@
-import { TableCell, TableRow } from '../Table/TableStyles'
+import { TableCell, TableRow } from '../Table/TableComponents'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
