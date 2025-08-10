@@ -4,9 +4,12 @@ import { FileRow } from './FileRow'
 import { FileSourceSelector } from '../ClientInput/FileSourceSelector'
 import { Table } from '../Table/Table'
 import type { FileInfo } from '../../types/FileInfo'
+import { DOCUMENT_TYPES } from '../../data/document-list'
+
+
 
 export const createBlankRow = (index: number = 0) => {
-    return { id: index + 1, docType: '', file: null, maradFile: null }
+    return { id: index + 1, docType: DOCUMENT_TYPES[0], file: null, maradFile: null }
 }
 
 export const STARTING_CLIENT_INFO = {

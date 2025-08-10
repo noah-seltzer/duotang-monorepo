@@ -21,12 +21,7 @@ export function FileRow({
     index,
     selectedOption
 }: FileRowProps) {
-    const hasFile = row.docType && row.file
-    const statusClassName = hasFile ? 'status-complete' : 'status-incomplete'
-
-    const documentInfo = DOCUMENT_TYPES.find(
-        (type) => type.name === row.docType
-    )
+    const statusClassName = row.file ? 'status-complete' : 'status-incomplete'
 
     const files = Array.from(row.file || [])
     if (row.maradFile) files.push(row.maradFile[0])
@@ -34,20 +29,17 @@ export function FileRow({
     return (
         <TableRow>
             {/* Status */}
-            <TableCell className={hasFile ? 'text-green-500' : 'text-red-500'}>
+            <TableCell className={row.file ? 'text-green-500' : 'text-red-500'}>
                 {statusClassName}
             </TableCell>
             {/* Document Type */}
             <TableCell>
                 <select
-                    value={row.docType}
-                    onChange={(e) =>
-                        onRowChange({ ...row, docType: e.target.value })
-                    }
+                    value={row.docType.slug}
                 >
                     <option value=''>-- Select a document --</option>
                     {DOCUMENT_TYPES.map((type) => (
-                        <option key={type.slug} value={type.name}>
+                        <option onSelect={() => onRowChange({...row, docType: type})} key={type.slug} value={type.slug}>
                             {type.name}
                         </option>
                     ))}
@@ -55,14 +47,14 @@ export function FileRow({
             </TableCell>
             {/* Assigned File */}
             <TableCell>
-                {documentInfo && selectedOption === 'local' ? (
+                {selectedOption === 'local' ? (
                     <>
                         <FileInput
                             onChange={(files) =>
                                 onRowChange({ ...row, file: files })
                             }
                         />
-                        {documentInfo.marad ? (
+                        {row.docType.marad ? (
                             <FileInput
                                 title='Add Marad File'
                                 onChange={(files) =>
@@ -76,7 +68,7 @@ export function FileRow({
                 ) : (
                     ''
                 )}
-                {documentInfo && selectedOption === 'onedrive' ? (
+                {selectedOption === 'onedrive' ? (
                     <>
                         <button className='btn btn primary' />
                     </>

@@ -13,10 +13,6 @@ export const createFileNamePreviews = (
 
     if (!file) return
 
-    const documentInfo: DocumentType =
-        DOCUMENT_TYPES.find((type) => type.name === docType) ||
-        DEFAULT_DOCUMENT_TYPE
-
     const fileArray = Array.from(file)
 
     const name = `${clientInfo.firstName || 'FirstName'}_${
@@ -28,7 +24,7 @@ export const createFileNamePreviews = (
     const fileNames = fileArray.map((file, i) => {
         const ext = getFileExtension(file)
         const subIndexChar = hasMultipleFiles ? subIndexes[i] : ''
-        const newFilename = `${index}${subIndexChar}_${documentInfo.slug}_${name}.${ext}`
+        const newFilename = `${index}${subIndexChar}_${docType.slug}_${name}.${ext}`
         return <p key={index}>{newFilename}</p>
     })
 
@@ -36,7 +32,7 @@ export const createFileNamePreviews = (
         const file = maradFile[0]
         const ext = getFileExtension(file)
         const newFilename = `${index}${subIndexes[fileNames.length]}_${
-            documentInfo.slug
+            docType.slug
         }_Marad Confirmation_${name}.${ext}`
         fileNames.push(<p key={file.name}>{newFilename}</p>)
     }
