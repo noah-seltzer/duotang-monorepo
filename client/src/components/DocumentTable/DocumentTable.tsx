@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { ClientInput } from '../ClientInput/ClientInput'
-import { Header, HeaderCell } from '../Table/TableComponents'
 import { type FileInfo, FileRow } from './FileRow'
 import { FileSourceSelector } from '../ClientInput/FileSourceSelector'
 import { Table } from '../Table/Table'

@@ -2,8 +2,8 @@ import { TableCell, TableRow } from '../Table/TableComponents'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
-import type { ClientInfo } from '../ClientInput/ClientInput'
 import { FilePreviews } from './FilePreview'
+import type { ClientInfo } from '../../types/ClientInfo'
 
 export interface FileInfo {
     id: number
