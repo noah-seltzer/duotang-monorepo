@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { ClientInput } from '../ClientInput/ClientInput'
-import { type FileInfo, FileRow } from './FileRow'
+import { FileRow } from './FileRow'
 import { FileSourceSelector } from '../ClientInput/FileSourceSelector'
 import { Table } from '../Table/Table'
+import type { FileInfo } from '../../types/FileInfo'
 
 export const createBlankRow = (index: number = 0) => {
     return { id: index + 1, docType: '', file: null, maradFile: null }

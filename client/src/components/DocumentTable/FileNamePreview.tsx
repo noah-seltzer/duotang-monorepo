@@ -1,6 +1,6 @@
-import type { FileInfo } from './FileRow'
 import { createFileNamePreviews } from '../../util/file-names'
 import type { ClientInfo } from '../../types/ClientInfo'
+import type { FileInfo } from '../../types/FileInfo'
 interface FileNamePreviewProps {
     fileInfo: FileInfo
     clientInfo: ClientInfo

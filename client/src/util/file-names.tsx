@@ -1,6 +1,6 @@
 import { DEFAULT_DOCUMENT_TYPE, DOCUMENT_TYPES, type DocumentType } from "../data/document-list"
-import type { FileInfo } from '../components/DocumentTable/FileRow';
 import type { ClientInfo } from "../types/ClientInfo";
+import type { FileInfo } from "../types/FileInfo";
 const getFileExtension = (file: File) => file.name.split('.').pop()
 
 export const createFileNamePreviews = (

@@ -4,13 +4,7 @@ import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
 import { FilePreviews } from './FilePreview'
 import type { ClientInfo } from '../../types/ClientInfo'
-
-export interface FileInfo {
-    id: number
-    docType: string
-    file: FileList | null
-    maradFile: FileList | null
-}
+import type { FileInfo } from '../../types/FileInfo'
 
 export interface FileRowProps {
     row: FileInfo
