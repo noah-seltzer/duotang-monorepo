@@ -5,6 +5,10 @@ import { FileSourceSelector } from '../ClientInput/FileSourceSelector'
 import { Table } from '../Table/Table'
 import type { FileInfo } from '../../types/FileInfo'
 import { DOCUMENT_TYPES } from '../../data/document-list'
+import { Picker } from '../OneDrive/Picker'
+import { Login } from '../auth/login'
+import { Logout } from '../auth/logout'
+import { LoginOutButtons } from '../auth/LoginOutButtons'
 
 
 
@@ -30,6 +34,8 @@ export function DocumentTable(): React.JSX.Element {
 
     const [rows, setRows] = useState<FileInfo[]>([createBlankRow()])
 
+    const [showPicker, setShowPicker] = useState<boolean>(false)
+
     const addRow = () => {
         setRows([...rows, createBlankRow(rows.length + 1)])
     }
@@ -50,6 +56,7 @@ export function DocumentTable(): React.JSX.Element {
         />
     ))
 
+
     return (
         <div>
             <FileSourceSelector
@@ -67,6 +74,15 @@ export function DocumentTable(): React.JSX.Element {
                 <button className='btn btn-secondary' onClick={addRow}>
                     Add Row
                 </button>
+                <button className='btn btn-secondary' onClick={() => setShowPicker(true)}>
+                    Show Picker
+                </button>
+                {
+                    showPicker ? <Picker /> : 'picker not shown'
+                }
+                <LoginOutButtons />
+
+                
             </div>
         </div>
     )

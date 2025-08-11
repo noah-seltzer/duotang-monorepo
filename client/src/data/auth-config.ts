@@ -16,7 +16,7 @@ export const msalConfig: MSALConfirguration = {
     auth: {
         clientId: import.meta.env.VITE_MS_CLIENT_ID, // This is the ONLY mandatory field that you need to supply.
         authority: `https://login.microsoftonline.com/${import.meta.env.VITE_MS_TENANT_ID}`,
-        redirectUri: "http://localhost:3000",
+        redirectUri: "http://localhost:5173",
     },
     cache: {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
@@ -56,7 +56,7 @@ export const msalConfig: MSALConfirguration = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-    scopes: ["User.Read", "Graph.Files.ReadWrite", "Files.ReadWrite", "OneDrive.ReadWrite"]
+    scopes: ["User.Read"]
 };
 
 /**

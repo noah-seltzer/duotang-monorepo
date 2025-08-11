@@ -8,15 +8,15 @@ export const Route = createFileRoute('/login')({
 
 function About() {
     const { instance } = useMsal()
-
     const handleLogin = () => {
         instance.loginPopup(loginRequest).catch((e) => {
             console.log(e)
         })
     }
-
+    const isLoggedIn = instance.getAllAccounts().length > 0;
+    console.log('isLoggedIn:', isLoggedIn);
     return <div className='p-2'>
-        Login Page 
+        {isLoggedIn ? <p>You are logged in</p> : <p>You are not logged in</p>}
         <button onClick={handleLogin}>Login</button>
     </div>
 }
