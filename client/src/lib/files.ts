@@ -1,3 +1,4 @@
+import { DOCUMENT_TYPES } from '../data/document-list'
 import type { ClientInfo } from '../types/ClientInfo'
 import type { FileInfo } from '../types/FileInfo'
 const getFileExtensionFromName = (fileName: string) => fileName.split('.').pop()
@@ -32,4 +33,9 @@ export const createFileNamePreviews = (
     }
 
     return fileNames
+}
+
+
+export const getDocumentType = (slug: string): DocumentType => {
+    return DOCUMENT_TYPES.find((docType) => docType.slug === slug) || DEFAULT_DOCUMENT_TYPE
 }

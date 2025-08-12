@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { ClientInfo } from "../types/ClientInfo";
+import { createSlice } from '@reduxjs/toolkit'
+import type { ClientInfo } from '../types/ClientInfo'
+import type { RootState } from '.'
 
 const initialState: ClientInfo = {
     firstName: 'Noah',
     lastName: 'Seltzer',
     jobTitle: 'Second Engineer'
 }
-
 
 export const clientInfoSlice = createSlice({
     name: 'clientInfo',
@@ -24,8 +24,9 @@ export const clientInfoSlice = createSlice({
     }
 })
 
+export const selectClientInfo = (state: RootState) => state.clientInfo
 
 export const { updateFirstName, updateLastName, updateJobTitle } = clientInfoSlice.actions
 
-export default clientInfoSlice.reducer;
+export default clientInfoSlice.reducer
 

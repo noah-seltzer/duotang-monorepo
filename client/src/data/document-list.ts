@@ -1,9 +1,4 @@
-export interface DocumentType {
-    label: string
-    slug: string
-    marad: boolean
-    add_year?: boolean
-}
+import type { DocumentType } from '../types/DocumentType'
 
 export const DEFAULT_DOCUMENT_TYPE: DocumentType = {
     label: 'Confirmation of Competency',
@@ -76,6 +71,3 @@ export const DOCUMENT_TYPES: DocumentType[] = [
 ]
 
 
-export const getDocumentType = (slug: string): DocumentType => {
-    return DOCUMENT_TYPES.find((docType) => docType.slug === slug) || DEFAULT_DOCUMENT_TYPE
-}

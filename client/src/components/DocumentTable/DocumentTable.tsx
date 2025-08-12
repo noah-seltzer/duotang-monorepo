@@ -3,9 +3,8 @@ import { FileRow } from './FileRow'
 import { Table } from '../Table/Table'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { LoginOutButtons } from '../Auth/LoginOutButtons'
-import { useDispatch, useSelector } from 'react-redux'
-import type { RootState } from '../../store'
-import { addFileRow } from '../../store/fileListSlice'
+import { useAppDispatch, useAppSelector, type RootState } from '../../store'
+import { addFileRow, selectFileRows } from '../../store/fileListSlice'
 
 export const createBlankRow = (index: number = 0) => {
     return {
@@ -25,9 +24,8 @@ const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File'
  */
 export function DocumentTable(): React.JSX.Element {
 
-    const rows = useSelector((state: RootState) => state.fileList.fileRows)
-    console.log('DocumentTable rows', rows)
-    const dispatch = useDispatch()
+    const rows = useAppSelector(selectFileRows)
+    const dispatch = useAppDispatch()
 
     const addRow = () => {
         dispatch(addFileRow())

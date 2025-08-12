@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { combine, getToken } from './util'
 import { useMsal } from '@azure/msal-react'
 import type { IPublicClientApplication } from '@azure/msal-browser'
@@ -132,7 +132,7 @@ async function createOneDriveWindow(
         fileBrowser: JSON.stringify(options)
     })
 
-    const url = combine(baseUrl, `_layouts/15/fileBrowser.aspx?${queryString}`)
+    const url = combine(baseUrl, `_layouts/15/FilePicker.aspx?${queryString}`)
     const form = iframeDocument.createElement('form')
     form.setAttribute('action', url)
     form.setAttribute('method', 'POST')
@@ -151,10 +151,19 @@ export function Picker() {
     const iframeRef = useRef<HTMLIFrameElement>(null)
     const { instance } = useMsal()
 
+    const [contentWindow, setContentWindow] = useState<Window | null>(null)
+
+    // when component mounts, open a new window for filepicker
     useEffect(() => {
-        if (!iframeRef.current?.contentDocument) return
-        createOneDriveWindow(instance, iframeRef.current.contentDocument)
+        setContentWindow(window.open("", "Picker", "width=800,height=600"));
     }, [iframeRef])
 
-    return <iframe className='w-full h-96' ref={iframeRef}></iframe>
+    // after new window mounts, open onedrive
+    useEffect(() => {
+        if (contentWindow) {
+            createOneDriveWindow(instance, contentWindow.document)
+        }
+    }, [contentWindow])
+
+    return <></>
 }

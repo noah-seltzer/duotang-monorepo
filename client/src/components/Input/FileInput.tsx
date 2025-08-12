@@ -2,6 +2,8 @@ import localforage from 'localforage'
 import { useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import type { FileCacheData } from '../../types/FileCacheData'
+import { OneDriveIcon } from '../Icon/OneDriveIcon'
+import { FolderIcon } from '../Icon/FolderIcon'
 
 interface FileInputProps {
     onChange?: (files: FileList | null) => void
@@ -22,10 +24,9 @@ async function storeAllFiles(files: FileList) {
 export function FileInput({
     onChange,
     onSaved,
-    title
 }: FileInputProps): React.JSX.Element {
-    
     const fileInputRef = useRef<HTMLInputElement>(null)
+    
     const processFileSelected = (files: FileList | null) => {
         if (!files) return
         if (onChange) onChange(files)
@@ -37,14 +38,16 @@ export function FileInput({
             console.log('failed to store files', err)
         }
     }
+    
 
     return (
         <>
             <button
-                className='btn btn-secondary'
+                className='btn btn-gray rounded-full'
                 onClick={() => fileInputRef.current?.click()}
             >
-                {title || 'Select File(s)'}
+                {/* {title || 'Select File(s)'} */}
+                <FolderIcon />
             </button>
             <input
                 type='file'
@@ -53,6 +56,13 @@ export function FileInput({
                 multiple={true}
                 hidden
             />
+
+            <button
+                className='btn btn-gray rounded-full'
+                onClick={() => fileInputRef.current?.click()}
+            >
+                <OneDriveIcon />
+            </button>
         </>
     )
 }

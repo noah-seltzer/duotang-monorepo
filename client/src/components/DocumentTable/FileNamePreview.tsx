@@ -1,4 +1,4 @@
-import { createFileNamePreviews } from '../../lib/file-names'
+import { createFileNamePreviews } from '../../lib/files'
 import type { ClientInfo } from '../../types/ClientInfo'
 import type { FileInfo } from '../../types/FileInfo'
 
