@@ -1,4 +1,3 @@
-import type { DocumentType } from '../data/document-list'
 import type { ClientInfo } from '../types/ClientInfo'
 import type { FileInfo } from '../types/FileInfo'
 const getFileExtensionFromName = (fileName: string) => fileName.split('.').pop()
