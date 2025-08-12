@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react'
-import { classNames } from '../../util/tw'
+import { classNames } from '../../lib/tw'
 
 export interface GenericComponentProps {
     className?: string

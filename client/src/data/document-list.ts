@@ -74,3 +74,8 @@ export const DOCUMENT_TYPES: DocumentType[] = [
         add_year: true
     }
 ]
+
+
+export const getDocumentType = (slug: string): DocumentType => {
+    return DOCUMENT_TYPES.find((docType) => docType.slug === slug) || DEFAULT_DOCUMENT_TYPE
+}

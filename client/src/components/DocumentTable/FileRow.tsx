@@ -4,9 +4,9 @@ import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
 import { FilePreviews } from './FilePreview'
 import type { FileInfo } from '../../types/FileInfo'
-import { classNames } from '../../util/tw'
+import { classNames } from '../../lib/tw'
 import Select from 'react-select'
-import { Checkmark } from '../icon/Checkmark'
+import { Checkmark } from '../Icon/Checkmark'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../../store'
 import { updateFileRow } from '../../store/fileListSlice'
@@ -20,8 +20,9 @@ export function FileRow({ row, index }: FileRowProps) {
     const clientInfo = useSelector((state: RootState) => state.clientInfo)
     const dispatch = useDispatch()
     
-    const fileIds = [...row.fileIds || [], ...(row.maradFileIds || [])]
-
+    const fileIds = [...row?.fileIds?.map(f => f.id) || [], ...(row?.maradFileIds?.map(f => f.id)) || []]
+    // const fileNames = [...row?.fileIds?.map(f => f.name) || [], ...(row?.maradFileIds?.map(f => f.name)) || []]
+    
     const isComplete = row.file && (row.docType.marad ? !!row.maradFile : true)
 
     const options = DOCUMENT_TYPES.map((docType) => ({
@@ -87,15 +88,15 @@ export function FileRow({ row, index }: FileRowProps) {
             </TableCell>
             {/* Filename Preview */}
             <TableCell>
-                {/* <FileNamePreview
+                <FileNamePreview
                     index={index}
                     fileInfo={row}
                     clientInfo={clientInfo}
-                /> */}
+                />
             </TableCell>
             {/* File Preview */}
             <TableCell>
-                {/* <FilePreviews files={fileIds} /> */}
+                <FilePreviews files={fileIds} />
             </TableCell>
         </TableRow>
     )

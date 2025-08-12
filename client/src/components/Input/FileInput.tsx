@@ -1,7 +1,7 @@
 import localforage from 'localforage'
 import { useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import type { FileCacheData } from './file-types'
+import type { FileCacheData } from '../../types/FileCacheData'
 
 interface FileInputProps {
     onChange?: (files: FileList | null) => void
