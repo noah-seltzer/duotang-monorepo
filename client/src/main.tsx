@@ -8,6 +8,8 @@ import { routeTree } from './routeTree.gen'
 import { PublicClientApplication } from '@azure/msal-browser'
 import { MsalProvider } from '@azure/msal-react'
 import { msalConfig } from './data/auth-config'
+import { store } from './store'
+import { Provider } from 'react-redux'
 
 // Create a new router instance
 const router = createRouter({ routeTree })
@@ -26,9 +28,11 @@ if (!rootElement.innerHTML) {
     const root = ReactDOM.createRoot(rootElement)
     root.render(
         <StrictMode>
-            <MsalProvider instance={msalInstance}>
-                <RouterProvider router={router} />
-            </MsalProvider>
+            <Provider store={store}>
+                <MsalProvider instance={msalInstance}>
+                    <RouterProvider router={router} />
+                </MsalProvider>
+            </Provider>
         </StrictMode>
     )
 }
