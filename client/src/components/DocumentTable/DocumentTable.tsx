@@ -39,9 +39,7 @@ export function DocumentTable(): React.JSX.Element {
     }
 
     const onRowChange = (row: FileInfo) => {
-        console.log('onRowChange', row)
         const newRows = rows.map((r) => (r.id === row.id ? row : r))
-        console.log('newRows', newRows)
         setRows(newRows)
     }
 

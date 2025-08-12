@@ -1,4 +1,4 @@
-
+import type { ChangeEvent } from "react";
 
 interface SelectorProps<T> {
     options: { label: string; value: T, slug: string }[]
@@ -13,15 +13,20 @@ export function Selector<T>({
     placeholder,
     selectedOption
 }: SelectorProps<T>) {
+    const onRowChanged = (e: ChangeEvent<HTMLSelectElement>) => {
+        onChange(options.find(option => option.slug === e.target.value)?.value as T);
+    }
+
     return (
+
         <select
             key={selectedOption}
             value={selectedOption}
-            onChange={(e) => onChange(options[Number(e.target.value)].value)}
+            onChange={onRowChanged}
         >
             <option value=''>{placeholder ?? '-- Select a document --'}</option>
             {options.map((option) => (
-                <option key={option.slug} value={option.label}>{option.label}</option>
+                <option key={option.slug} value={option.slug}>{option.label}</option>
             ))}
         </select>
     )

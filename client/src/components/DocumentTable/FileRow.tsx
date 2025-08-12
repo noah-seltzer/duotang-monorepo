@@ -6,6 +6,7 @@ import { FilePreviews } from './FilePreview'
 import type { ClientInfo } from '../../types/ClientInfo'
 import type { FileInfo } from '../../types/FileInfo'
 import { Selector } from './Selector'
+import { classNames } from '../../util/tw'
 
 export interface FileRowProps {
     row: FileInfo
@@ -15,8 +16,6 @@ export interface FileRowProps {
 }
 
 export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
-    const statusClassName = row.file ? 'status-complete' : 'status-incomplete'
-
     const files = Array.from(row.file || [])
     if (row.maradFile) files.push(row.maradFile[0])
 
@@ -28,7 +27,10 @@ export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
         <TableRow>
             {/* Status */}
             <TableCell className={row.file ? 'text-green-500' : 'text-red-500'}>
-                {statusClassName}
+                <span className={classNames('flex w-3 h-3 me-3 rounded-full', row.file ? 'bg-green-500' : 'bg-red-500')}>
+
+                {/* {statusClassName} */}
+                </span>
             </TableCell>
             {/* Document Type */}
             <TableCell>

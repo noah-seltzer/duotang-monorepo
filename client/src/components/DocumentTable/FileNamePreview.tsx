@@ -7,6 +7,16 @@ interface FileNamePreviewProps {
     index: number
 }
 
+export function DisplayName({ name }: { name: string }) {
+    const isOverflow = name.length > 20
+    const displayName = isOverflow ? `${name.slice(0, 20)}...` : name
+    return (
+        <span title={name} className={isOverflow ? 'overflow' : ''}>
+            {displayName}
+        </span>
+    )
+}
+
 /**
  * Displays the computed filenames the system will use on export of a file
  */
@@ -24,5 +34,11 @@ export function FileNamePreview({
         index,
         maradFile
     )
-    return filenames.map((name) => <p>{name}</p>)
+    return (
+        <div className='flex flex-col gap-1'>
+            {filenames.map((name) => (
+                <DisplayName name={name} />
+            ))}
+        </div>
+    )
 }
