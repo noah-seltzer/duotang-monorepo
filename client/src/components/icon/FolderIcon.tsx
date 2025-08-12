@@ -1,6 +1,6 @@
 import { SOFT_BLACK_HEX } from '../../constants/color'
 
-export function FolderIcon({color}: {color?: string}) {
+export function FolderIcon({ color }: { color?: string }) {
     return (
         <svg
             xmlns='http://www.w3.org/2000/svg'

@@ -1,5 +1,10 @@
 import { TextInput } from '../Input/TextInput'
-import { selectClientInfo, updateFirstName, updateJobTitle, updateLastName } from '../../store/clientInfoSlice'
+import {
+    selectClientInfo,
+    updateFirstName,
+    updateJobTitle,
+    updateLastName
+} from '../../store/clientInfoSlice'
 import { useAppDispatch, useAppSelector } from '../../store'
 
 /**
@@ -8,7 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../store'
  * @param handleClientInfoChange react state setter for client info
  */
 export function ClientInput() {
-    const {firstName, lastName, jobTitle} = useAppSelector(selectClientInfo)
+    const { firstName, lastName, jobTitle } = useAppSelector(selectClientInfo)
     const dispatch = useAppDispatch()
 
     return (
@@ -29,7 +34,6 @@ export function ClientInput() {
                 value={lastName}
                 onChange={(event) => {
                     dispatch(updateLastName(event.target.value))
-                    
                 }}
             />
             <TextInput
@@ -44,5 +48,3 @@ export function ClientInput() {
         </div>
     )
 }
-
-

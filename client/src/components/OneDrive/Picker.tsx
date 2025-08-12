@@ -155,7 +155,7 @@ export function Picker() {
 
     // when component mounts, open a new window for filepicker
     useEffect(() => {
-        setContentWindow(window.open("", "Picker", "width=800,height=600"));
+        setContentWindow(window.open('', 'Picker', 'width=800,height=600'))
     }, [iframeRef])
 
     // after new window mounts, open onedrive

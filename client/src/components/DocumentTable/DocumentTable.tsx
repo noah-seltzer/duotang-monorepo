@@ -15,15 +15,19 @@ export const createBlankRow = (index: number = 0) => {
     }
 }
 
-
-
-const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File']
+const rowNames = [
+    'Status',
+    'Document',
+    'File',
+    'Marad File',
+    'Filename',
+    'File'
+]
 
 /**
  * Outermost parent for the spreadsheet-like document table
  */
 export function DocumentTable(): React.JSX.Element {
-
     const rows = useAppSelector(selectFileRows)
     const dispatch = useAppDispatch()
 
@@ -32,11 +36,7 @@ export function DocumentTable(): React.JSX.Element {
     }
 
     const rowElements = rows.map((r, i) => (
-        <FileRow
-            index={i + 1}
-            key={r.id}
-            row={r}
-        />
+        <FileRow index={i + 1} key={r.id} row={r} />
     ))
 
     return (

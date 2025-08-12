@@ -3,14 +3,14 @@ import type { DocumentType } from '../types/DocumentType'
 export const DEFAULT_DOCUMENT_TYPE: DocumentType = {
     label: 'Confirmation of Competency',
     slug: 'CoC',
-    marad: true,
+    marad: true
 }
 
 export const DOCUMENT_TYPES: DocumentType[] = [
     {
         label: 'Confirmation of Competency',
         slug: 'CoC',
-        marad: true,
+        marad: true
     },
     {
         label: 'Endorsement',
@@ -69,5 +69,3 @@ export const DOCUMENT_TYPES: DocumentType[] = [
         add_year: true
     }
 ]
-
-

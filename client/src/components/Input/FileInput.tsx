@@ -15,7 +15,7 @@ async function storeAllFiles(files: FileList) {
     const promises = Array.from(files).map(async (file) => {
         const uuid = uuidv4()
         await localforage.setItem(uuid, file)
-        return {id: uuid, name: file.name}
+        return { id: uuid, name: file.name }
     })
 
     return Promise.all(promises)
@@ -23,10 +23,10 @@ async function storeAllFiles(files: FileList) {
 
 export function FileInput({
     onChange,
-    onSaved,
+    onSaved
 }: FileInputProps): React.JSX.Element {
     const fileInputRef = useRef<HTMLInputElement>(null)
-    
+
     const processFileSelected = (files: FileList | null) => {
         if (!files) return
         if (onChange) onChange(files)
@@ -38,7 +38,6 @@ export function FileInput({
             console.log('failed to store files', err)
         }
     }
-    
 
     return (
         <>

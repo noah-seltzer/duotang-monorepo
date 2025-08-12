@@ -7,10 +7,7 @@ interface FilePreviewsProps {
     row: FileInfo
 }
 
-
-export function FilePreviews({
-    row
-}: FilePreviewsProps): React.JSX.Element {
+export function FilePreviews({ row }: FilePreviewsProps): React.JSX.Element {
     const fileIds = [
         ...(row?.fileIds?.map((f) => f.id) || []),
         ...(row?.maradFileIds?.map((f) => f.id) || [])

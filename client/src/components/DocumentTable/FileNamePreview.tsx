@@ -26,7 +26,7 @@ export function FileNamePreview({
     clientInfo,
     index
 }: FileNamePreviewProps) {
-    if (!fileInfo || !clientInfo ) return 'None'
+    if (!fileInfo || !clientInfo) return 'None'
     const filenames = createFileNamePreviews(fileInfo, clientInfo, index)
     return (
         <div className='flex flex-col gap-1'>

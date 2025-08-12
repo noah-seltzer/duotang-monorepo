@@ -37,7 +37,7 @@ export const fileListSlice = createSlice({
             state.fileRows = state.fileRows.map((row) =>
                 row.id === updatedRow.id ? updatedRow : row
             )
-        },
+        }
     }
 })
 
@@ -46,7 +46,6 @@ export const selectUnusedFileTypes = (state: RootState) => {
     const usedFileTypes = state.fileList.fileRows.map((row) => row.docType.slug)
     return DOCUMENT_TYPES.filter((type) => !usedFileTypes.includes(type.slug))
 }
-
 
 export const { addFileRow, updateFileRow } = fileListSlice.actions
 

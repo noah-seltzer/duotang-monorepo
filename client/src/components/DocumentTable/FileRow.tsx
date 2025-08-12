@@ -1,18 +1,16 @@
 import { TableCell, TableRow } from '../Table/TableComponents'
-import { DOCUMENT_TYPES, getDocumentType } from '../../data/document-list'
+import { DOCUMENT_TYPES } from '../../data/document-list'
 import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
-import { FilePreviews, FilePreviewsMemo } from './FilePreview'
+import { FilePreviews } from './FilePreview'
 import type { FileInfo } from '../../types/FileInfo'
 import { classNames } from '../../lib/tw'
 import { Checkmark } from '../Icon/Checkmark'
 import { useAppDispatch, useAppSelector } from '../../store'
-import {
-    selectFileRows,
-    updateFileRow
-} from '../../store/fileListSlice'
+import { selectFileRows, updateFileRow } from '../../store/fileListSlice'
 import { selectClientInfo } from '../../store/clientInfoSlice'
 import { FileTypeSelector } from './FileTypeSelector'
+import { getDocumentType } from '../../lib/files'
 
 export interface FileRowProps {
     row: FileInfo

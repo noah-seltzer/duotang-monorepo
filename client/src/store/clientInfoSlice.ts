@@ -26,7 +26,7 @@ export const clientInfoSlice = createSlice({
 
 export const selectClientInfo = (state: RootState) => state.clientInfo
 
-export const { updateFirstName, updateLastName, updateJobTitle } = clientInfoSlice.actions
+export const { updateFirstName, updateLastName, updateJobTitle } =
+    clientInfoSlice.actions
 
 export default clientInfoSlice.reducer
-

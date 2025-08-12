@@ -8,7 +8,6 @@ const initialState: PageControlSliceState = {
     OneDrivePickerIsOpen: false
 }
 
-
 export const pageControlSlice = createSlice({
     name: 'pageControl',
     initialState,
@@ -18,9 +17,6 @@ export const pageControlSlice = createSlice({
         }
     }
 })
-
-
-
 
 export const { setOneDrivePickerIsOpen } = pageControlSlice.actions
 
