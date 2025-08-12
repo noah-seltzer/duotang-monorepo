@@ -1,11 +1,12 @@
-import { useState } from 'react'
 import { ClientInput } from '../ClientInput/ClientInput'
 import { FileRow } from './FileRow'
 import { Table } from '../Table/Table'
 import type { FileInfo } from '../../types/FileInfo'
 import { DOCUMENT_TYPES } from '../../data/document-list'
-import { Picker } from '../OneDrive/Picker'
 import { LoginOutButtons } from '../auth/LoginOutButtons'
+import { useDispatch, useSelector } from 'react-redux'
+import type { RootState } from '../../store'
+import { addFileRow, updateFileRow } from '../../store/fileListSlice'
 
 export const createBlankRow = (index: number = 0) => {
     return {
@@ -16,11 +17,7 @@ export const createBlankRow = (index: number = 0) => {
     }
 }
 
-export const STARTING_CLIENT_INFO = {
-    firstName: 'Noah',
-    lastName: 'Seltzer',
-    jobTitle: 'Second Engineer'
-}
+
 
 const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File']
 
@@ -28,26 +25,18 @@ const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File'
  * Outermost parent for the spreadsheet-like document table
  */
 export function DocumentTable(): React.JSX.Element {
-    const [clientInfo, setClientInfo] = useState(STARTING_CLIENT_INFO)
 
-    const [rows, setRows] = useState<FileInfo[]>([createBlankRow()])
+    const rows = useSelector((state: RootState) => state.fileList.fileRows)
 
-    const [showPicker, setShowPicker] = useState<boolean>(false)
+    const dispatch = useDispatch()
 
     const addRow = () => {
-        setRows([...rows, createBlankRow(rows.length + 1)])
-    }
-
-    const onRowChange = (row: FileInfo) => {
-        const newRows = rows.map((r) => (r.id === row.id ? row : r))
-        setRows(newRows)
+        dispatch(addFileRow())
     }
 
     const rowElements = rows.map((r, i) => (
         <FileRow
             index={i + 1}
-            onRowChange={(row: FileInfo) => onRowChange(row)}
-            clientInfo={clientInfo}
             key={r.id}
             row={r}
         />
@@ -58,10 +47,7 @@ export function DocumentTable(): React.JSX.Element {
             <div className='flex justify-left'>
                 <LoginOutButtons />
             </div>
-            <ClientInput
-                clientInfo={clientInfo}
-                handleClientInfoChange={setClientInfo}
-            />
+            <ClientInput />
             <div className='relative'>
                 <Table rowNames={rowNames} rows={rowElements} />
             </div>
@@ -69,15 +55,6 @@ export function DocumentTable(): React.JSX.Element {
                 <button className='btn btn-secondary' onClick={addRow}>
                     Add Row
                 </button>
-                <button
-                    className='btn btn-secondary'
-                    onClick={() => setShowPicker(true)}
-                >
-                    Show Picker
-                </button>
-            </div>
-            <div className='w-full'>
-                {showPicker ? <Picker /> : 'picker not shown'}
             </div>
         </div>
     )

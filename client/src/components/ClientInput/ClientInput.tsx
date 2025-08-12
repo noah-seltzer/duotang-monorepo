@@ -1,20 +1,17 @@
-import type { ClientInfo } from '../../types/ClientInfo'
+import { useDispatch, useSelector } from 'react-redux'
 import { TextInput } from '../Input/TextInput'
-
-export interface ClientInputProps {
-    clientInfo: ClientInfo
-    handleClientInfoChange: (info: ClientInfo) => void
-}
+import { updateFirstName, updateJobTitle, updateLastName } from '../../store/clientInfoSlice'
+import type { RootState } from '../../store'
 
 /**
  * Form for information about the client who the documents are for
  * @param clientInfo react state for client info
  * @param handleClientInfoChange react state setter for client info
  */
-export function ClientInput({
-    clientInfo: { firstName, lastName, jobTitle },
-    handleClientInfoChange
-}: ClientInputProps) {
+export function ClientInput() {
+    const {firstName, lastName, jobTitle} = useSelector((state: RootState) => state.clientInfo)
+
+    const dispatch = useDispatch()
     return (
         <div className='client-info'>
             <TextInput
@@ -22,11 +19,7 @@ export function ClientInput({
                 placeholder='Client First Name'
                 value={firstName}
                 onChange={(event) => {
-                    handleClientInfoChange({
-                        firstName: event.target.value,
-                        lastName,
-                        jobTitle
-                    })
+                    dispatch(updateFirstName(event.target.value))
                 }}
             />
             <TextInput
@@ -34,11 +27,8 @@ export function ClientInput({
                 placeholder='Client Last Name'
                 value={lastName}
                 onChange={(event) => {
-                    handleClientInfoChange({
-                        firstName,
-                        lastName: event.target.value,
-                        jobTitle
-                    })
+                    dispatch(updateLastName(event.target.value))
+                    
                 }}
             />
             <TextInput
@@ -46,11 +36,7 @@ export function ClientInput({
                 placeholder='Client Job Title'
                 value={jobTitle}
                 onChange={(event) => {
-                    handleClientInfoChange({
-                        firstName,
-                        lastName,
-                        jobTitle: event.target.value
-                    })
+                    dispatch(updateJobTitle(event.target.value))
                 }}
             />
         </div>
