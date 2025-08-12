@@ -3,7 +3,7 @@ import { FileRow } from './FileRow'
 import { Table } from '../Table/Table'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { LoginOutButtons } from '../Auth/LoginOutButtons'
-import { useAppDispatch, useAppSelector, type RootState } from '../../store'
+import { useAppDispatch, useAppSelector } from '../../store'
 import { addFileRow, selectFileRows } from '../../store/fileListSlice'
 
 export const createBlankRow = (index: number = 0) => {

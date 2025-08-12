@@ -1,5 +1,6 @@
-import { DOCUMENT_TYPES } from '../data/document-list'
+import { DEFAULT_DOCUMENT_TYPE, DOCUMENT_TYPES } from '../data/document-list'
 import type { ClientInfo } from '../types/ClientInfo'
+import type { DocumentRowType } from '../types/DocumentRowType'
 import type { FileInfo } from '../types/FileInfo'
 const getFileExtensionFromName = (fileName: string) => fileName.split('.').pop()
 
@@ -43,7 +44,7 @@ export const createFileNamePreviews = (
     return fileNames
 }
 
-export const getDocumentType = (slug: string): DocumentType => {
+export const getDocumentRowType = (slug: string): DocumentRowType => {
     return (
         DOCUMENT_TYPES.find((docType) => docType.slug === slug) ||
         DEFAULT_DOCUMENT_TYPE

@@ -1,9 +1,8 @@
-import type { DocumentType } from '../data/document-list'
+import type { DocumentRowType } from './DocumentRowType'
 import type { FileCacheData } from './FileCacheData'
-
 export interface FileInfo {
     id: number
-    docType: DocumentType
+    docType: DocumentRowType
     file: FileList | null
     fileIds: FileCacheData[]
     maradFileIds: FileCacheData[]

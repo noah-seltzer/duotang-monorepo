@@ -1,4 +1,4 @@
-export interface DocumentType {
+export interface DocumentRowType {
     label: string
     slug: string
     marad: boolean

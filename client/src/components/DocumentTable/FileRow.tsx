@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../store'
 import { selectFileRows, updateFileRow } from '../../store/fileListSlice'
 import { selectClientInfo } from '../../store/clientInfoSlice'
 import { FileTypeSelector } from './FileTypeSelector'
-import { getDocumentType } from '../../lib/files'
+import { getDocumentRowType } from '../../lib/files'
 
 export interface FileRowProps {
     row: FileInfo
@@ -55,7 +55,7 @@ export function FileRow({ row, index }: FileRowProps) {
                     options={options}
                     currentOption={currentOption}
                     onChange={(value) => {
-                        const newDocType = getDocumentType(value.value)
+                        const newDocType = getDocumentRowType(value.value)
                         dispatch(updateFileRow({ ...row, docType: newDocType }))
                     }}
                 />

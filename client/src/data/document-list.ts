@@ -1,12 +1,12 @@
-import type { DocumentType } from '../types/DocumentType'
+import type { DocumentRowType } from '../types/DocumentRowType'
 
-export const DEFAULT_DOCUMENT_TYPE: DocumentType = {
+export const DEFAULT_DOCUMENT_TYPE: DocumentRowType = {
     label: 'Confirmation of Competency',
     slug: 'CoC',
     marad: true
 }
 
-export const DOCUMENT_TYPES: DocumentType[] = [
+export const DOCUMENT_TYPES: DocumentRowType[] = [
     {
         label: 'Confirmation of Competency',
         slug: 'CoC',
