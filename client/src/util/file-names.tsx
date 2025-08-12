@@ -3,8 +3,6 @@ import type { ClientInfo } from '../types/ClientInfo'
 const getFileExtension = (file: File) => file.name.split('.').pop()
 const subIndexes = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
-
-
 export const createFileNamePreviews = (
     fileList: FileList,
     docType: DocumentType,
@@ -17,7 +15,7 @@ export const createFileNamePreviews = (
     const name = `${clientInfo.firstName || 'FirstName'}_${
         clientInfo.lastName || 'LastName'
     }`
-    const hasMultipleFiles = fileArray.length > 1 || maradFile?.length || 0 > 0
+    const hasMultipleFiles = fileArray.length > 1 || maradFile
 
     const fileNames = fileArray.map((file, i) => {
         const ext = getFileExtension(file)

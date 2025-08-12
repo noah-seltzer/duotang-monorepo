@@ -1,12 +1,11 @@
 import { ClientInput } from '../ClientInput/ClientInput'
 import { FileRow } from './FileRow'
 import { Table } from '../Table/Table'
-import type { FileInfo } from '../../types/FileInfo'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { LoginOutButtons } from '../auth/LoginOutButtons'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../../store'
-import { addFileRow, updateFileRow } from '../../store/fileListSlice'
+import { addFileRow } from '../../store/fileListSlice'
 
 export const createBlankRow = (index: number = 0) => {
     return {
