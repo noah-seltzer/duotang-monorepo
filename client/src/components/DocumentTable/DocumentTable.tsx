@@ -10,10 +10,13 @@ import { Login } from '../auth/login'
 import { Logout } from '../auth/logout'
 import { LoginOutButtons } from '../auth/LoginOutButtons'
 
-
-
 export const createBlankRow = (index: number = 0) => {
-    return { id: index + 1, docType: DOCUMENT_TYPES[0], file: null, maradFile: null }
+    return {
+        id: index + 1,
+        docType: DOCUMENT_TYPES[0],
+        file: null,
+        maradFile: null
+    }
 }
 
 export const STARTING_CLIENT_INFO = {
@@ -56,7 +59,6 @@ export function DocumentTable(): React.JSX.Element {
         />
     ))
 
-
     return (
         <div>
             <FileSourceSelector
@@ -74,16 +76,15 @@ export function DocumentTable(): React.JSX.Element {
                 <button className='btn btn-secondary' onClick={addRow}>
                     Add Row
                 </button>
-                <button className='btn btn-secondary' onClick={() => setShowPicker(true)}>
+                <button
+                    className='btn btn-secondary'
+                    onClick={() => setShowPicker(true)}
+                >
                     Show Picker
                 </button>
-                {
-                    showPicker ? <Picker /> : 'picker not shown'
-                }
                 <LoginOutButtons />
-
-                
             </div>
+            <div className='w-full'>{showPicker ? <Picker /> : 'picker not shown'}</div>
         </div>
     )
 }

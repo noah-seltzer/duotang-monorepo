@@ -162,5 +162,5 @@ export function Picker() {
         createOneDriveWindow(instance, iframeRef.current.contentDocument)
     }, [iframeRef])
 
-    return <iframe ref={iframeRef}></iframe>
+    return <iframe className='w-full h-96' ref={iframeRef}></iframe>
 }
