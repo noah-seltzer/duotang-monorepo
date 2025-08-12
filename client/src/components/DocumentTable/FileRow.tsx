@@ -5,8 +5,8 @@ import { FileNamePreview } from './FileNamePreview'
 import { FilePreviews } from './FilePreview'
 import type { ClientInfo } from '../../types/ClientInfo'
 import type { FileInfo } from '../../types/FileInfo'
-import { Selector } from './Selector'
 import { classNames } from '../../util/tw'
+import Select from 'react-select'
 
 export interface FileRowProps {
     row: FileInfo
@@ -23,18 +23,35 @@ export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
         return { label: type.name, value: type, slug: type.slug }
     })
 
+    const isComplete = row.file && (row.docType.marad ? !!row.maradFile : true)
+
     return (
         <TableRow>
             {/* Status */}
-            <TableCell className={row.file ? 'text-green-500' : 'text-red-500'}>
-                <span className={classNames('flex w-3 h-3 me-3 rounded-full', row.file ? 'bg-green-500' : 'bg-red-500')}>
-
-                {/* {statusClassName} */}
-                </span>
+            <TableCell className='p-6 space-y-0'>
+                <span
+                    className={classNames(
+                        'flex w-10 h-6 rounded-full',
+                        isComplete ? 'bg-green-500' : 'bg-red-500'
+                    )}
+                ></span>
             </TableCell>
             {/* Document Type */}
             <TableCell>
-                <Selector options={options} selectedOption={row.docType.name} onChange={(value) => onRowChange({ ...row, docType: value })} />
+                <div className='overflow-visible'>
+                    <Select
+                        className='basic-single overflow-visible w-76'
+                        classNamePrefix='select'
+                        isSearchable={true}
+                        options={options}
+                        placeholder='Select Document Type'
+                        onChange={(value) => {
+                            if (!value) return
+                            onRowChange({ ...row, docType: value.value })
+                        }}
+                    />
+                </div>
+                {/* <Selector options={options} selectedOption={row.docType.name} onChange={(value) => onRowChange({ ...row, docType: value })} /> */}
             </TableCell>
             {/* Assigned File */}
             <TableCell>
@@ -44,7 +61,11 @@ export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
                             onRowChange({ ...row, file: files })
                         }
                     />
-                    {row.docType.marad ? (
+                    
+                </div>
+            </TableCell>
+            <TableCell>
+                {row.docType.marad ? (
                         <FileInput
                             title='Add Marad File'
                             onChange={(files) =>
@@ -52,9 +73,8 @@ export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
                             }
                         />
                     ) : (
-                        ''
+                        'None Required'
                     )}
-                </div>
             </TableCell>
             {/* Filename Preview */}
             <TableCell>

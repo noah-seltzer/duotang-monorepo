@@ -22,7 +22,7 @@ export const STARTING_CLIENT_INFO = {
     jobTitle: 'Second Engineer'
 }
 
-const rowNames = ['Status', 'Document', 'Assigned', 'Filename', 'File']
+const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File']
 
 /**
  * Outermost parent for the spreadsheet-like document table
@@ -62,7 +62,7 @@ export function DocumentTable(): React.JSX.Element {
                 clientInfo={clientInfo}
                 handleClientInfoChange={setClientInfo}
             />
-            <div className='relative overflow-x-auto'>
+            <div className='relative'>
                 <Table rowNames={rowNames} rows={rowElements} />
             </div>
             <div className='flex justify-left mt-2'>
