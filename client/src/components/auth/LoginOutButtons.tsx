@@ -1,6 +1,6 @@
 import { useMsal } from '@azure/msal-react'
-import { Login } from './login'
-import { Logout } from './logout'
+import { Logout } from './Logout'
+import { Login } from './Login'
 
 export function LoginOutButtons(): React.JSX.Element {
     const { instance } = useMsal()

@@ -20,7 +20,7 @@ export const msalConfig: MSALConfirguration = {
         authority: `https://login.microsoftonline.com/${
             import.meta.env.VITE_MS_TENANT_ID
         }`,
-        redirectUri: 'http://localhost:5173'
+        redirectUri: import.meta.env.VITE_BASE_URL, 
     },
     cache: {
         cacheLocation: 'sessionStorage', // This configures where your cache will be stored

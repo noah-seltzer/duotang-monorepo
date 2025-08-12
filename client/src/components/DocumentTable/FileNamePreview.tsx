@@ -16,6 +16,13 @@ export function FileNamePreview({
     index
 }: FileNamePreviewProps) {
     if (!fileInfo.file) return 'None'
-
-    return createFileNamePreviews(fileInfo, clientInfo, index)
+    const maradFile = fileInfo.maradFile?.[0]
+    const filenames = createFileNamePreviews(
+        fileInfo.file,
+        fileInfo.docType,
+        clientInfo,
+        index,
+        maradFile
+    )
+    return filenames.map((name) => <p>{name}</p>)
 }

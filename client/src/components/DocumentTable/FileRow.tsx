@@ -5,6 +5,7 @@ import { FileNamePreview } from './FileNamePreview'
 import { FilePreviews } from './FilePreview'
 import type { ClientInfo } from '../../types/ClientInfo'
 import type { FileInfo } from '../../types/FileInfo'
+import { Selector } from './Selector'
 
 export interface FileRowProps {
     row: FileInfo
@@ -19,6 +20,10 @@ export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
     const files = Array.from(row.file || [])
     if (row.maradFile) files.push(row.maradFile[0])
 
+    const options = DOCUMENT_TYPES.map((type) => {
+        return { label: type.name, value: type, slug: type.slug }
+    })
+
     return (
         <TableRow>
             {/* Status */}
@@ -27,24 +32,11 @@ export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
             </TableCell>
             {/* Document Type */}
             <TableCell>
-                <select value={row.docType.slug}>
-                    <option value=''>-- Select a document --</option>
-                    {DOCUMENT_TYPES.map((type) => (
-                        <option
-                            onSelect={() =>
-                                onRowChange({ ...row, docType: type })
-                            }
-                            key={type.slug}
-                            value={type.slug}
-                        >
-                            {type.name}
-                        </option>
-                    ))}
-                </select>
+                <Selector options={options} selectedOption={row.docType.name} onChange={(value) => onRowChange({ ...row, docType: value })} />
             </TableCell>
             {/* Assigned File */}
             <TableCell>
-                <>
+                <div className='flex gap-2'>
                     <FileInput
                         onChange={(files) =>
                             onRowChange({ ...row, file: files })
@@ -60,7 +52,7 @@ export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
                     ) : (
                         ''
                     )}
-                </>
+                </div>
             </TableCell>
             {/* Filename Preview */}
             <TableCell>
