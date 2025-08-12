@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from '../Table/TableComponents'
-import { DOCUMENT_TYPES } from '../../data/document-list'
+import { DOCUMENT_TYPES, getDocumentType } from '../../data/document-list'
 import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
 import { FilePreviews } from './FilePreview'
@@ -19,12 +19,15 @@ export interface FileRowProps {
 export function FileRow({ row, index }: FileRowProps) {
     const clientInfo = useSelector((state: RootState) => state.clientInfo)
     const dispatch = useDispatch()
-
-    const files = Array.from(row.file || [])
-    if (row.maradFile) files.push(row.maradFile[0])
-
+    
+    const fileIds = [...row.fileIds || [], ...(row.maradFileIds || [])]
 
     const isComplete = row.file && (row.docType.marad ? !!row.maradFile : true)
+
+    const options = DOCUMENT_TYPES.map((docType) => ({
+        value: docType.slug,
+        label: docType.label,
+    }))
 
     return (
         <TableRow>
@@ -41,17 +44,15 @@ export function FileRow({ row, index }: FileRowProps) {
             <TableCell>
                 <div className='overflow-visible'>
                     <Select
+                        isMulti={false}
                         className='basic-single overflow-visible w-76'
-                        classNamePrefix='select'
-                        isSearchable={true}
-                        options={DOCUMENT_TYPES}
-                        defaultValue={row.docType}
+                        options={options}
+                        value={{value: row.docType.slug, label: row.docType.label}}
                         placeholder='Select Document Type'
                         onChange={(value) => {
                             if (!value) return
-                            dispatch(
-                                updateFileRow({ ...row, docType: value })
-                            )
+                            const newDocType = getDocumentType(value.value)
+                            dispatch(updateFileRow({ ...row, docType: newDocType }))
                         }}
                     />
                 </div>
@@ -60,8 +61,8 @@ export function FileRow({ row, index }: FileRowProps) {
             <TableCell>
                 <div className='flex flex-row items-center gap-2'>
                     <FileInput
-                        onChange={(files) =>
-                            dispatch(updateFileRow({ ...row, file: files }))
+                        onSaved={(files) =>
+                            dispatch(updateFileRow({ ...row, fileIds: files }))
                         }
                     />
                     <Checkmark checked={!!row.file} />
@@ -72,9 +73,9 @@ export function FileRow({ row, index }: FileRowProps) {
                     <div className='flex flex-row items-center gap-2'>
                         <FileInput
                             title='Add Marad File'
-                            onChange={(files) =>
+                            onSaved={(files) =>
                                 dispatch(
-                                    updateFileRow({ ...row, maradFile: files })
+                                    updateFileRow({ ...row, maradFileIds: files })
                                 )
                             }
                         />
@@ -86,15 +87,15 @@ export function FileRow({ row, index }: FileRowProps) {
             </TableCell>
             {/* Filename Preview */}
             <TableCell>
-                <FileNamePreview
+                {/* <FileNamePreview
                     index={index}
                     fileInfo={row}
                     clientInfo={clientInfo}
-                />
+                /> */}
             </TableCell>
             {/* File Preview */}
             <TableCell>
-                <FilePreviews files={files} />
+                {/* <FilePreviews files={fileIds} /> */}
             </TableCell>
         </TableRow>
     )
