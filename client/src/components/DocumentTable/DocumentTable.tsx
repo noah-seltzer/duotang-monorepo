@@ -6,8 +6,6 @@ import { Table } from '../Table/Table'
 import type { FileInfo } from '../../types/FileInfo'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { Picker } from '../OneDrive/Picker'
-import { Login } from '../auth/login'
-import { Logout } from '../auth/logout'
 import { LoginOutButtons } from '../auth/LoginOutButtons'
 
 export const createBlankRow = (index: number = 0) => {
