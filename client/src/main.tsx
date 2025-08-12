@@ -8,8 +8,9 @@ import { routeTree } from './routeTree.gen'
 import { PublicClientApplication } from '@azure/msal-browser'
 import { MsalProvider } from '@azure/msal-react'
 import { msalConfig } from './data/auth-config'
-import { store } from './store'
+import { persistor, store } from './store'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 
 // Create a new router instance
 const router = createRouter({ routeTree })
@@ -29,9 +30,11 @@ if (!rootElement.innerHTML) {
     root.render(
         <StrictMode>
             <Provider store={store}>
-                <MsalProvider instance={msalInstance}>
-                    <RouterProvider router={router} />
-                </MsalProvider>
+                <PersistGate loading={null} persistor={persistor}>
+                    <MsalProvider instance={msalInstance}>
+                        <RouterProvider router={router} />
+                    </MsalProvider>
+                </PersistGate>
             </Provider>
         </StrictMode>
     )

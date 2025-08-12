@@ -26,7 +26,7 @@ const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File'
 export function DocumentTable(): React.JSX.Element {
 
     const rows = useSelector((state: RootState) => state.fileList.fileRows)
-
+    console.log('DocumentTable rows', rows)
     const dispatch = useDispatch()
 
     const addRow = () => {

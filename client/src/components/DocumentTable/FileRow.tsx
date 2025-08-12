@@ -23,9 +23,6 @@ export function FileRow({ row, index }: FileRowProps) {
     const files = Array.from(row.file || [])
     if (row.maradFile) files.push(row.maradFile[0])
 
-    const options = DOCUMENT_TYPES.map((type) => {
-        return { label: type.name, value: type, slug: type.slug }
-    })
 
     const isComplete = row.file && (row.docType.marad ? !!row.maradFile : true)
 
@@ -47,12 +44,13 @@ export function FileRow({ row, index }: FileRowProps) {
                         className='basic-single overflow-visible w-76'
                         classNamePrefix='select'
                         isSearchable={true}
-                        options={options}
+                        options={DOCUMENT_TYPES}
+                        defaultValue={row.docType}
                         placeholder='Select Document Type'
                         onChange={(value) => {
                             if (!value) return
                             dispatch(
-                                updateFileRow({ ...row, docType: value.value })
+                                updateFileRow({ ...row, docType: value })
                             )
                         }}
                     />
