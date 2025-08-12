@@ -17,15 +17,11 @@ const options = {
     }
 }
 
-// const baseUrl = "https://onedrive.live.com";
-const baseUrl = 'https://overhorizoninc-my.sharepoint.com/'
+const baseUrl = import.meta.env.VITE_HORIZON_SHAREPOINT_URL || 'https://onedrive.live.com'
 
 async function createOneDriveWindow(instance: IPublicClientApplication, iframeDocument: Document): Promise<void> {
-
-
     let port: MessagePort
     async function messageListener(message: MessageEvent): Promise<void> {
-        console.log('messageListener called', message)
         switch (message.data.type) {
             case 'notification':
                 if (message.data.data.notification === 'page-loaded') {
@@ -88,13 +84,10 @@ async function createOneDriveWindow(instance: IPublicClientApplication, iframeDo
                 break
         }
     }
-    console.log('attaching event listener to window')
     // this adds a listener to the current (host) window, which the popup or embed will message when ready
     window.addEventListener('message', (event) => {
-        console.log('event', event)
         // we validate the message is for us, win here is the same variable as above
         if (event.source) {
-            console.log('event source', event.source)
             const message = event.data
 
             // the channelId is part of the configuration options, but we could have multiple browsers so that is supported via channels
@@ -137,7 +130,6 @@ async function createOneDriveWindow(instance: IPublicClientApplication, iframeDo
     })
 
     const url = combine(baseUrl, `_layouts/15/fileBrowser.aspx?${queryString}`)
-    console.log('creating form to submit to OneDrive', url)
     const form = iframeDocument.createElement('form')
     form.setAttribute('action', url)
     form.setAttribute('method', 'POST')

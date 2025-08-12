@@ -1,24 +1,8 @@
 import {
-    PublicClientApplication,
-    type Configuration,
     type IPublicClientApplication,
     type SilentRequest
 } from '@azure/msal-browser'
 import type { IAuthenticateCommand } from './types'
-
-// const msalParams: Configuration = {
-//     auth: {
-//         clientId: import.meta.env.VITE_MS_CLIENT_ID,
-//         authority: `https://login.microsoftonline.com/${import.meta.env.VITE_MS_TENANT_ID}/`,
-//         redirectUri: 'https://localhost:5173',
-//     },
-//     cache: {
-//         cacheLocation: "localStorage",
-//         storeAuthStateInCookie: true, // set to true for IE 11
-//     },
-// }
-
-// const app = new PublicClientApplication(msalParams);
 
 export async function getToken(
     command: IAuthenticateCommand,
@@ -36,21 +20,20 @@ export async function getToken(
         const resp = await instance.acquireTokenSilent(authParams!)
         accessToken = resp.accessToken
     } catch (e) {
-        console.log('e', e)
         // per examples we fall back to popup
-        // const resp = await app.loginPopup(authParams!);
-        // app.setActiveAccount(resp.account);
+        const resp = await instance.loginPopup(authParams!);
+        instance.setActiveAccount(resp.account);
 
-        // if (resp.idToken) {
+        if (resp.idToken) {
 
-        //     const resp2 = await app.acquireTokenSilent(authParams!);
-        //     accessToken = resp2.accessToken;
+            const resp2 = await instance.acquireTokenSilent(authParams!);
+            accessToken = resp2.accessToken;
 
-        // } else {
+        } else {
 
-        //     // throw the error that brought us here
-        //     throw e;
-        // }
+            // throw the error that brought us here
+            throw e;
+        }
     }
 
     return accessToken
