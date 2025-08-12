@@ -6,6 +6,9 @@ import type { FileInfo } from '../../types/FileInfo'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { Picker } from '../OneDrive/Picker'
 import { LoginOutButtons } from '../auth/LoginOutButtons'
+import { useDispatch, useSelector } from 'react-redux'
+import type { RootState } from '../../store'
+import { addFileRow, updateFileRow } from '../../store/fileListSlice'
 
 export const createBlankRow = (index: number = 0) => {
     return {
@@ -28,19 +31,21 @@ const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File'
  * Outermost parent for the spreadsheet-like document table
  */
 export function DocumentTable(): React.JSX.Element {
-    const [clientInfo, setClientInfo] = useState(STARTING_CLIENT_INFO)
 
-    const [rows, setRows] = useState<FileInfo[]>([createBlankRow()])
+    const rows = useSelector((state: RootState) => state.fileList.fileRows)
+
+    const dispatch = useDispatch()
+
+    const [clientInfo, setClientInfo] = useState(STARTING_CLIENT_INFO)
 
     const [showPicker, setShowPicker] = useState<boolean>(false)
 
     const addRow = () => {
-        setRows([...rows, createBlankRow(rows.length + 1)])
+        dispatch(addFileRow())
     }
 
     const onRowChange = (row: FileInfo) => {
-        const newRows = rows.map((r) => (r.id === row.id ? row : r))
-        setRows(newRows)
+        dispatch(updateFileRow(row))
     }
 
     const rowElements = rows.map((r, i) => (
