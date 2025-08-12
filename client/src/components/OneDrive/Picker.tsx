@@ -112,7 +112,6 @@ async function createOneDriveWindow(instance: IPublicClientApplication, iframeDo
         }
     })
 
-    console.log('getting token for authentication')
     // we need to get an authentication token to use in the form below (more information in auth section)
     const authToken = await getToken(
         {
@@ -149,7 +148,6 @@ export function Picker() {
     const { instance } = useMsal()
 
     useEffect(() => {
-        console.log('picker useEffect called', iframeRef.current)
         if (!iframeRef.current?.contentDocument) return
         createOneDriveWindow(instance, iframeRef.current.contentDocument)
     }, [iframeRef])
