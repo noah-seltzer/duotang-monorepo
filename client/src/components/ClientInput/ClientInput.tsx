@@ -1,20 +1,16 @@
-import { useDispatch } from 'react-redux'
-import type { ClientInfo } from '../../types/ClientInfo'
+import { useDispatch, useSelector } from 'react-redux'
 import { TextInput } from '../Input/TextInput'
 import { updateFirstName, updateJobTitle, updateLastName } from '../../store/clientInfoSlice'
-
-export interface ClientInputProps {
-    clientInfo: ClientInfo
-}
+import type { RootState } from '../../store'
 
 /**
  * Form for information about the client who the documents are for
  * @param clientInfo react state for client info
  * @param handleClientInfoChange react state setter for client info
  */
-export function ClientInput({
-    clientInfo: { firstName, lastName, jobTitle },
-}: ClientInputProps) {
+export function ClientInput() {
+    const {firstName, lastName, jobTitle} = useSelector((state: RootState) => state.clientInfo)
+
     const dispatch = useDispatch()
     return (
         <div className='client-info'>

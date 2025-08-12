@@ -1,10 +1,8 @@
-import { useState } from 'react'
 import { ClientInput } from '../ClientInput/ClientInput'
 import { FileRow } from './FileRow'
 import { Table } from '../Table/Table'
 import type { FileInfo } from '../../types/FileInfo'
 import { DOCUMENT_TYPES } from '../../data/document-list'
-import { Picker } from '../OneDrive/Picker'
 import { LoginOutButtons } from '../auth/LoginOutButtons'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../../store'
@@ -29,25 +27,16 @@ const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File'
 export function DocumentTable(): React.JSX.Element {
 
     const rows = useSelector((state: RootState) => state.fileList.fileRows)
-    const clientInfo = useSelector((state: RootState) => state.clientInfo)
 
     const dispatch = useDispatch()
-
-
 
     const addRow = () => {
         dispatch(addFileRow())
     }
 
-    const onRowChange = (row: FileInfo) => {
-        dispatch(updateFileRow(row))
-    }
-
     const rowElements = rows.map((r, i) => (
         <FileRow
             index={i + 1}
-            onRowChange={(row: FileInfo) => onRowChange(row)}
-            clientInfo={clientInfo}
             key={r.id}
             row={r}
         />
@@ -58,9 +47,7 @@ export function DocumentTable(): React.JSX.Element {
             <div className='flex justify-left'>
                 <LoginOutButtons />
             </div>
-            <ClientInput
-                clientInfo={clientInfo}
-            />
+            <ClientInput />
             <div className='relative'>
                 <Table rowNames={rowNames} rows={rowElements} />
             </div>
