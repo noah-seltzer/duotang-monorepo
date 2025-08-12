@@ -14,7 +14,6 @@ function About() {
         })
     }
     const isLoggedIn = instance.getAllAccounts().length > 0;
-    console.log('isLoggedIn:', isLoggedIn);
     return <div className='p-2'>
         {isLoggedIn ? <p>You are logged in</p> : <p>You are not logged in</p>}
         <button onClick={handleLogin}>Login</button>
