@@ -1,10 +1,13 @@
 import localforage from 'localforage'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import type { FileCacheData } from '../../types/FileCacheData'
 import { OneDriveIcon } from '../Icon/OneDriveIcon'
 import { FolderIcon } from '../Icon/FolderIcon'
-
+import { Picker } from '../OneDrive/Picker'
+import { useMsal } from '@azure/msal-react'
+import { Login } from '../Auth/Login'
+import { Root as DialogRoot, Trigger as DialogTrigger, Portal as DialogPortal } from "@radix-ui/react-dialog";
 interface FileInputProps {
     onChange?: (files: FileList | null) => void
     onSaved?: (fileIds: FileCacheData[]) => void
@@ -25,7 +28,12 @@ export function FileInput({
     onChange,
     onSaved
 }: FileInputProps): React.JSX.Element {
+    const { instance } = useMsal()
+
     const fileInputRef = useRef<HTMLInputElement>(null)
+    const [showPicker, setShowPicker] = useState(false)
+
+    const isLoggedIn = instance.getAllAccounts().length > 0
 
     const processFileSelected = (files: FileList | null) => {
         if (!files) return
@@ -38,6 +46,8 @@ export function FileInput({
             console.log('failed to store files', err)
         }
     }
+
+    
 
     return (
         <>
@@ -55,13 +65,29 @@ export function FileInput({
                 multiple={true}
                 hidden
             />
-
-            <button
-                className='btn btn-gray rounded-full'
-                onClick={() => fileInputRef.current?.click()}
-            >
-                <OneDriveIcon />
-            </button>
+            {isLoggedIn ? (
+                <>
+                    <DialogRoot>
+                        <DialogTrigger>
+                            <button
+                                
+                                // onClick={() => setShowPicker(true)}
+                                >
+                                <OneDriveIcon />
+                            </button>
+                        </DialogTrigger>
+                        <DialogPortal>
+                            <Picker />
+                        </DialogPortal>
+                    </DialogRoot>
+                    {/* {showPicker && <>
+                        
+                    </>
+                    } */}
+                </>
+            ): <Login />}
         </>
     )
 }
+
+{/* <Picker /> */}

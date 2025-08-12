@@ -2,18 +2,19 @@ import { useEffect, useRef, useState } from 'react'
 import { combine, getToken } from './util'
 import { useMsal } from '@azure/msal-react'
 import type { IPublicClientApplication } from '@azure/msal-browser'
+import {v4 as uuidv4} from 'uuid'
+
+const channelId = uuidv4()
 
 const options = {
     sdk: '8.0',
     entry: {
-        oneDrive: {
-            files: {}
-        }
+        oneDrive: {}
     },
     authentication: {},
     messaging: {
         origin: window.location.origin,
-        channelId: '27'
+        channelId: channelId
     }
 }
 
@@ -26,6 +27,7 @@ async function createOneDriveWindow(
 ): Promise<void> {
     let port: MessagePort
     async function messageListener(message: MessageEvent): Promise<void> {
+        console.log('message', message)
         switch (message.data.type) {
             case 'notification':
                 if (message.data.data.notification === 'page-loaded') {
@@ -90,6 +92,7 @@ async function createOneDriveWindow(
     }
     // this adds a listener to the current (host) window, which the popup or embed will message when ready
     window.addEventListener('message', (event) => {
+        console.log('message event', event)
         // we validate the message is for us, win here is the same variable as above
         if (event.source) {
             const message = event.data
@@ -129,7 +132,8 @@ async function createOneDriveWindow(
     // now we need to construct our query string
     // options: These are the browser configuration, see the schema link for a full explaination of the available options
     const queryString = new URLSearchParams({
-        fileBrowser: JSON.stringify(options)
+        filePicker: JSON.stringify(options),
+        locale: 'en-us'
     })
 
     const url = combine(baseUrl, `_layouts/15/FilePicker.aspx?${queryString}`)
