@@ -11,16 +11,9 @@ export interface FileRowProps {
     clientInfo: ClientInfo
     onRowChange: (updatedRow: FileInfo) => void
     index: number
-    selectedOption: string
 }
 
-export function FileRow({
-    row,
-    onRowChange,
-    clientInfo,
-    index,
-    selectedOption
-}: FileRowProps) {
+export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
     const statusClassName = row.file ? 'status-complete' : 'status-incomplete'
 
     const files = Array.from(row.file || [])
@@ -34,12 +27,16 @@ export function FileRow({
             </TableCell>
             {/* Document Type */}
             <TableCell>
-                <select
-                    value={row.docType.slug}
-                >
+                <select value={row.docType.slug}>
                     <option value=''>-- Select a document --</option>
                     {DOCUMENT_TYPES.map((type) => (
-                        <option onSelect={() => onRowChange({...row, docType: type})} key={type.slug} value={type.slug}>
+                        <option
+                            onSelect={() =>
+                                onRowChange({ ...row, docType: type })
+                            }
+                            key={type.slug}
+                            value={type.slug}
+                        >
                             {type.name}
                         </option>
                     ))}
@@ -47,34 +44,23 @@ export function FileRow({
             </TableCell>
             {/* Assigned File */}
             <TableCell>
-                {selectedOption === 'local' ? (
-                    <>
+                <>
+                    <FileInput
+                        onChange={(files) =>
+                            onRowChange({ ...row, file: files })
+                        }
+                    />
+                    {row.docType.marad ? (
                         <FileInput
+                            title='Add Marad File'
                             onChange={(files) =>
-                                onRowChange({ ...row, file: files })
+                                onRowChange({ ...row, maradFile: files })
                             }
                         />
-                        {row.docType.marad ? (
-                            <FileInput
-                                title='Add Marad File'
-                                onChange={(files) =>
-                                    onRowChange({ ...row, maradFile: files })
-                                }
-                            />
-                        ) : (
-                            ''
-                        )}
-                    </>
-                ) : (
-                    ''
-                )}
-                {selectedOption === 'onedrive' ? (
-                    <>
-                        <button className='btn btn primary' />
-                    </>
-                ) : (
-                    ''
-                )}
+                    ) : (
+                        ''
+                    )}
+                </>
             </TableCell>
             {/* Filename Preview */}
             <TableCell>

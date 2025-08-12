@@ -1,4 +1,4 @@
-import type { DocumentType } from "../data/document-list"
+import type { DocumentType } from '../data/document-list'
 
 export interface FileInfo {
     id: number

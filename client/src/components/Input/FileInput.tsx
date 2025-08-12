@@ -5,7 +5,10 @@ interface FileInputProps {
     title?: string
 }
 
-export function FileInput({ onChange, title }: FileInputProps): React.JSX.Element {
+export function FileInput({
+    onChange,
+    title
+}: FileInputProps): React.JSX.Element {
     const fileInputRef = useRef<HTMLInputElement>(null)
     return (
         <>

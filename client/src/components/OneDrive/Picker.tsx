@@ -17,9 +17,13 @@ const options = {
     }
 }
 
-const baseUrl = import.meta.env.VITE_HORIZON_SHAREPOINT_URL || 'https://onedrive.live.com'
+const baseUrl =
+    import.meta.env.VITE_HORIZON_SHAREPOINT_URL || 'https://onedrive.live.com'
 
-async function createOneDriveWindow(instance: IPublicClientApplication, iframeDocument: Document): Promise<void> {
+async function createOneDriveWindow(
+    instance: IPublicClientApplication,
+    iframeDocument: Document
+): Promise<void> {
     let port: MessagePort
     async function messageListener(message: MessageEvent): Promise<void> {
         switch (message.data.type) {

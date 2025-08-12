@@ -13,9 +13,7 @@ export function Table({ rowNames, rows }: TableProps): React.JSX.Element {
                     <HeaderCell key={index}>{name}</HeaderCell>
                 ))}
             </Header>
-            <tbody>
-                {rows}
-            </tbody>
+            <tbody>{rows}</tbody>
         </table>
     )
 }

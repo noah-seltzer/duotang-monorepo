@@ -5,7 +5,12 @@ export interface TextInputProps {
     name?: string
 }
 
-export function TextInput({ placeholder, value, onChange, name }: TextInputProps) {
+export function TextInput({
+    placeholder,
+    value,
+    onChange,
+    name
+}: TextInputProps) {
     return (
         <>
             <input

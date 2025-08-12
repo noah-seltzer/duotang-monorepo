@@ -9,9 +9,10 @@ export async function getToken(
     instance: IPublicClientApplication
 ): Promise<string> {
     let accessToken = ''
-    const authParams: SilentRequest = { 
+    const authParams: SilentRequest = {
         account: instance.getAllAccounts()[0],
-        scopes: [`${combine(command.resource, '.default')}`] }
+        scopes: [`${combine(command.resource, '.default')}`]
+    }
 
     await instance.initialize()
 
@@ -21,18 +22,15 @@ export async function getToken(
         accessToken = resp.accessToken
     } catch (e) {
         // per examples we fall back to popup
-        const resp = await instance.loginPopup(authParams!);
-        instance.setActiveAccount(resp.account);
+        const resp = await instance.loginPopup(authParams!)
+        instance.setActiveAccount(resp.account)
 
         if (resp.idToken) {
-
-            const resp2 = await instance.acquireTokenSilent(authParams!);
-            accessToken = resp2.accessToken;
-
+            const resp2 = await instance.acquireTokenSilent(authParams!)
+            accessToken = resp2.accessToken
         } else {
-
             // throw the error that brought us here
-            throw e;
+            throw e
         }
     }
 

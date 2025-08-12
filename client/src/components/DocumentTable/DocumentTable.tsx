@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { ClientInput } from '../ClientInput/ClientInput'
 import { FileRow } from './FileRow'
-import { FileSourceSelector } from '../ClientInput/FileSourceSelector'
 import { Table } from '../Table/Table'
 import type { FileInfo } from '../../types/FileInfo'
 import { DOCUMENT_TYPES } from '../../data/document-list'
@@ -31,8 +30,6 @@ const rowNames = ['Status', 'Document', 'Assigned', 'Filename', 'File']
 export function DocumentTable(): React.JSX.Element {
     const [clientInfo, setClientInfo] = useState(STARTING_CLIENT_INFO)
 
-    const [fileSource, setFileSource] = useState<string>('local')
-
     const [rows, setRows] = useState<FileInfo[]>([createBlankRow()])
 
     const [showPicker, setShowPicker] = useState<boolean>(false)
@@ -53,16 +50,14 @@ export function DocumentTable(): React.JSX.Element {
             clientInfo={clientInfo}
             key={r.id}
             row={r}
-            selectedOption={fileSource}
         />
     ))
 
     return (
         <div>
-            <FileSourceSelector
-                onRadioButtonClicked={setFileSource}
-                selectedOption={fileSource}
-            />
+            <div className='flex justify-left'>
+                <LoginOutButtons />
+            </div>
             <ClientInput
                 clientInfo={clientInfo}
                 handleClientInfoChange={setClientInfo}
@@ -80,9 +75,10 @@ export function DocumentTable(): React.JSX.Element {
                 >
                     Show Picker
                 </button>
-                <LoginOutButtons />
             </div>
-            <div className='w-full'>{showPicker ? <Picker /> : 'picker not shown'}</div>
+            <div className='w-full'>
+                {showPicker ? <Picker /> : 'picker not shown'}
+            </div>
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import { useMsal } from "@azure/msal-react"
+import { useMsal } from '@azure/msal-react'
 
 export function Logout(): React.JSX.Element {
     const { instance } = useMsal()
@@ -7,9 +7,5 @@ export function Logout(): React.JSX.Element {
         instance.logout()
     }
 
-    return (
-        <div className='p-2'>
-            <button onClick={handleLogin}>Logout</button>
-        </div>
-    )
+    return <button onClick={handleLogin}>Logout</button>
 }
