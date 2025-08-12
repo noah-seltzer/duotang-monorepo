@@ -19,11 +19,7 @@ export const createBlankRow = (index: number = 0) => {
     }
 }
 
-export const STARTING_CLIENT_INFO = {
-    firstName: 'Noah',
-    lastName: 'Seltzer',
-    jobTitle: 'Second Engineer'
-}
+
 
 const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File']
 
@@ -33,12 +29,11 @@ const rowNames = ['Status', 'Document', 'File', 'Marad File', 'Filename', 'File'
 export function DocumentTable(): React.JSX.Element {
 
     const rows = useSelector((state: RootState) => state.fileList.fileRows)
+    const clientInfo = useSelector((state: RootState) => state.clientInfo)
 
     const dispatch = useDispatch()
 
-    const [clientInfo, setClientInfo] = useState(STARTING_CLIENT_INFO)
 
-    const [showPicker, setShowPicker] = useState<boolean>(false)
 
     const addRow = () => {
         dispatch(addFileRow())
@@ -65,7 +60,6 @@ export function DocumentTable(): React.JSX.Element {
             </div>
             <ClientInput
                 clientInfo={clientInfo}
-                handleClientInfoChange={setClientInfo}
             />
             <div className='relative'>
                 <Table rowNames={rowNames} rows={rowElements} />
@@ -74,15 +68,6 @@ export function DocumentTable(): React.JSX.Element {
                 <button className='btn btn-secondary' onClick={addRow}>
                     Add Row
                 </button>
-                <button
-                    className='btn btn-secondary'
-                    onClick={() => setShowPicker(true)}
-                >
-                    Show Picker
-                </button>
-            </div>
-            <div className='w-full'>
-                {showPicker ? <Picker /> : 'picker not shown'}
             </div>
         </div>
     )

@@ -7,6 +7,7 @@ import type { ClientInfo } from '../../types/ClientInfo'
 import type { FileInfo } from '../../types/FileInfo'
 import { classNames } from '../../util/tw'
 import Select from 'react-select'
+import { Checkmark } from '../icon/Checkmark'
 
 export interface FileRowProps {
     row: FileInfo
@@ -51,30 +52,32 @@ export function FileRow({ row, onRowChange, clientInfo, index }: FileRowProps) {
                         }}
                     />
                 </div>
-                {/* <Selector options={options} selectedOption={row.docType.name} onChange={(value) => onRowChange({ ...row, docType: value })} /> */}
             </TableCell>
             {/* Assigned File */}
             <TableCell>
-                <div className='flex gap-2'>
+                <div className='flex flex-row items-center gap-2'>
                     <FileInput
                         onChange={(files) =>
                             onRowChange({ ...row, file: files })
                         }
                     />
-                    
+                    <Checkmark checked={!!row.file} />
                 </div>
             </TableCell>
             <TableCell>
                 {row.docType.marad ? (
+                    <div className='flex flex-row items-center gap-2'>
                         <FileInput
                             title='Add Marad File'
                             onChange={(files) =>
                                 onRowChange({ ...row, maradFile: files })
                             }
                         />
-                    ) : (
-                        'None Required'
-                    )}
+                        <Checkmark checked={!!row.maradFile} />
+                    </div>
+                ) : (
+                    'No Marad Required'
+                )}
             </TableCell>
             {/* Filename Preview */}
             <TableCell>

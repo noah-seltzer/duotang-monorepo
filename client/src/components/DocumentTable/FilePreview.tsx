@@ -1,11 +1,11 @@
 export function FilePreviews({ files }: { files: File[] }): React.JSX.Element {
     if (!files || files.length === 0) return <>None</>
     return (
-        <>
+        <div className='flex flex-row gap-2'>
             {files.map((file) => (
                 <FilePreview file={file} />
             ))}
-        </>
+        </div>
     )
 }
 

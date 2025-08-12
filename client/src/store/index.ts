@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import fileListSlice  from './fileListSlice'
+import clientInfoSlice from './clientInfoSlice'
 
 export const store = configureStore({
   reducer: {
-    fileList: fileListSlice
+    fileList: fileListSlice,
+    clientInfo: clientInfoSlice
   },
 })
 
