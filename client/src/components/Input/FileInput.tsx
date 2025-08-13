@@ -1,5 +1,5 @@
 import localforage from 'localforage'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import type { FileCacheData } from '../../types/FileCacheData'
 import { OneDriveIcon } from '../Icon/OneDriveIcon'
@@ -7,10 +7,12 @@ import { FolderIcon } from '../Icon/FolderIcon'
 import { Picker } from '../OneDrive/Picker'
 import { useMsal } from '@azure/msal-react'
 import { Login } from '../Auth/Login'
-import { Root as DialogRoot, Trigger as DialogTrigger, Portal as DialogPortal } from "@radix-ui/react-dialog";
+import {
+    Root as DialogRoot,
+    Trigger as DialogTrigger,
+    Portal as DialogPortal
+} from '@radix-ui/react-dialog'
 import type { OneDrivePickedFileResult } from '../../types/OneDrivePickedFileResult'
-import { combine } from '../../lib/onedrive'
-import type { SilentRequest } from '@azure/msal-browser'
 import { fileDownloadRequest } from '../../data/auth-config'
 interface FileInputProps {
     onChange?: (files: FileList | null) => void
@@ -18,8 +20,8 @@ interface FileInputProps {
     title?: string
 }
 
-async function storeAllFiles(files: FileList) {
-    const promises = Array.from(files).map(async (file) => {
+async function storeAllFiles(files: File[]) {
+    const promises = files.map(async (file) => {
         const uuid = uuidv4()
         await localforage.setItem(uuid, file)
         return { id: uuid, name: file.name }
@@ -42,7 +44,7 @@ export function FileInput({
         if (!files) return
         if (onChange) onChange(files)
         try {
-            storeAllFiles(files).then((fileIds) => {
+            storeAllFiles(Array.from(files)).then((fileIds) => {
                 if (onSaved) onSaved(fileIds)
             })
         } catch (err) {
@@ -50,33 +52,42 @@ export function FileInput({
         }
     }
 
-    const processOnedriveFileSelected = async (command: OneDrivePickedFileResult) => {
+    const processOnedriveFileSelected = async (
+        command: OneDrivePickedFileResult
+    ) => {
         const account = instance.getAllAccounts()[0]
-        command.items.forEach(async item => {
-            try {
-                const token = await instance.acquireTokenSilent({...fileDownloadRequest, account})
-                console.log('token', token)
-                const res = await fetch(`https://graph.microsoft.com/v1.0/me/drive/items/${item.id}/content`, {
-                    headers: {
-                        authorization: `Bearer ${token.accessToken}`
-                    }
+        const files = await Promise.all(
+            command.items.map(async (item) => {
+                const token = await instance.acquireTokenPopup({
+                    ...fileDownloadRequest,
+                    account
                 })
+                console.log('token', token)
+                const res = await fetch(
+                    `https://graph.microsoft.com/v1.0/me/drive/items/${item.id}/content`,
+                    {
+                        headers: {
+                            authorization: `Bearer ${token.accessToken}`
+                        }
+                    }
+                )
                 console.log('res', res)
-            } catch (e) {
-                console.log('error fetching', e)
-                // console.log('error fetching', e)
-                // const res = await fetch(item.webDavUrl)
-                // console.log('res', res)
-            }
-        })
+                const blob = await res.blob()
+                return new File([blob], item.name)
+            })
+        )
+        console.log('files', files)
+        return files
     }
 
     const onFilePicked = async (command: any) => {
         console.log('file pick received', command)
-        processOnedriveFileSelected(command)
+        const files = await processOnedriveFileSelected(command)
+        const fileIds = await storeAllFiles(files)
+        console.log('file ids', fileIds)
+        if (onSaved) onSaved(fileIds)
+        console.log('finished storing files')
     }
-
-    
 
     return (
         <>
@@ -97,20 +108,16 @@ export function FileInput({
                 <>
                     <DialogRoot>
                         <DialogTrigger>
-                            <button
-                                
-                                >
-                                <OneDriveIcon />
-                            </button>
+                            <OneDriveIcon />
                         </DialogTrigger>
                         <DialogPortal>
-                            <Picker onPick={onFilePicked}/>
+                            <Picker onPick={onFilePicked} />
                         </DialogPortal>
                     </DialogRoot>
                 </>
-            ): <Login />}
+            ) : (
+                <Login />
+            )}
         </>
     )
 }
-
-{/* <Picker /> */}
