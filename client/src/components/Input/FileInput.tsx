@@ -62,7 +62,6 @@ export function FileInput({
                     ...fileDownloadRequest,
                     account
                 })
-                console.log('token', token)
                 const res = await fetch(
                     `https://graph.microsoft.com/v1.0/me/drive/items/${item.id}/content`,
                     {
@@ -71,22 +70,17 @@ export function FileInput({
                         }
                     }
                 )
-                console.log('res', res)
                 const blob = await res.blob()
                 return new File([blob], item.name)
             })
         )
-        console.log('files', files)
         return files
     }
 
     const onFilePicked = async (command: any) => {
-        console.log('file pick received', command)
         const files = await processOnedriveFileSelected(command)
         const fileIds = await storeAllFiles(files)
-        console.log('file ids', fileIds)
         if (onSaved) onSaved(fileIds)
-        console.log('finished storing files')
     }
 
     return (
