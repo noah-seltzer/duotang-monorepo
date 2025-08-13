@@ -5,6 +5,6 @@ import { Login } from './Login'
 export function LoginOutButtons(): React.JSX.Element {
     const { instance } = useMsal()
 
-    let isLoggedIn = instance.getAllAccounts().length > 0
+    const isLoggedIn = instance.getAllAccounts().length > 0
     return <>{isLoggedIn ? <Logout /> : <Login />}</>
 }

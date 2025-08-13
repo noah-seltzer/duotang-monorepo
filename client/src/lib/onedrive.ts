@@ -2,7 +2,7 @@ import {
     type IPublicClientApplication,
     type SilentRequest
 } from '@azure/msal-browser'
-import type { IAuthenticateCommand } from './types'
+import type { IAuthenticateCommand } from '../components/OneDrive/types'
 
 export async function getToken(
     command: IAuthenticateCommand,

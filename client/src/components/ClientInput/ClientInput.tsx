@@ -1,7 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { TextInput } from '../Input/TextInput'
-import { updateFirstName, updateJobTitle, updateLastName } from '../../store/clientInfoSlice'
-import type { RootState } from '../../store'
+import {
+    selectClientInfo,
+    updateFirstName,
+    updateJobTitle,
+    updateLastName
+} from '../../store/clientInfoSlice'
+import { useAppDispatch, useAppSelector } from '../../store'
 
 /**
  * Form for information about the client who the documents are for
@@ -9,12 +13,13 @@ import type { RootState } from '../../store'
  * @param handleClientInfoChange react state setter for client info
  */
 export function ClientInput() {
-    const {firstName, lastName, jobTitle} = useSelector((state: RootState) => state.clientInfo)
+    const { firstName, lastName, jobTitle } = useAppSelector(selectClientInfo)
+    const dispatch = useAppDispatch()
 
-    const dispatch = useDispatch()
     return (
-        <div className='client-info'>
+        <div className='w-1/2 mb-6 flex flex-col gap-3'>
             <TextInput
+                label='First Name'
                 name='firstName'
                 placeholder='Client First Name'
                 value={firstName}
@@ -23,16 +28,17 @@ export function ClientInput() {
                 }}
             />
             <TextInput
+                label='Last Name'
                 name='lastName'
                 placeholder='Client Last Name'
                 value={lastName}
                 onChange={(event) => {
                     dispatch(updateLastName(event.target.value))
-                    
                 }}
             />
             <TextInput
                 name='Client Job Title'
+                label='Job Title'
                 placeholder='Client Job Title'
                 value={jobTitle}
                 onChange={(event) => {

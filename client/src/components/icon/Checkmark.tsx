@@ -1,4 +1,4 @@
-import { classNames } from '../../util/tw'
+import { classNames } from '../../lib/tw'
 
 export function Checkmark({
     checked

@@ -4,12 +4,13 @@ import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
 import { FilePreviews } from './FilePreview'
 import type { FileInfo } from '../../types/FileInfo'
-import { classNames } from '../../util/tw'
-import Select from 'react-select'
-import { Checkmark } from '../icon/Checkmark'
-import { useDispatch, useSelector } from 'react-redux'
-import type { RootState } from '../../store'
-import { updateFileRow } from '../../store/fileListSlice'
+import { classNames } from '../../lib/tw'
+import { Checkmark } from '../Icon/Checkmark'
+import { useAppDispatch, useAppSelector } from '../../store'
+import { selectFileRows, updateFileRow } from '../../store/fileListSlice'
+import { selectClientInfo } from '../../store/clientInfoSlice'
+import { FileTypeSelector } from './FileTypeSelector'
+import { getDocumentRowType } from '../../lib/files'
 
 export interface FileRowProps {
     row: FileInfo
@@ -17,17 +18,25 @@ export interface FileRowProps {
 }
 
 export function FileRow({ row, index }: FileRowProps) {
-    const clientInfo = useSelector((state: RootState) => state.clientInfo)
-    const dispatch = useDispatch()
+    const clientInfo = useAppSelector(selectClientInfo)
+    const rows = useAppSelector(selectFileRows)
+    const dispatch = useAppDispatch()
 
-    const files = Array.from(row.file || [])
-    if (row.maradFile) files.push(row.maradFile[0])
+    const isComplete =
+        row.fileIds?.length > 0 &&
+        (row.docType.marad ? row.maradFileIds?.length > 0 : true)
 
-    const options = DOCUMENT_TYPES.map((type) => {
-        return { label: type.name, value: type, slug: type.slug }
-    })
+    const usedSlugs = rows.map((row) => row.docType.slug)
+    const unusedFileTypes = DOCUMENT_TYPES.filter(
+        (type) => !usedSlugs.includes(type.slug)
+    )
 
-    const isComplete = row.file && (row.docType.marad ? !!row.maradFile : true)
+    const options = unusedFileTypes.map((docType) => ({
+        value: docType.slug,
+        label: docType.label
+    }))
+
+    const currentOption = { value: row.docType.slug, label: row.docType.label }
 
     return (
         <TableRow>
@@ -42,31 +51,26 @@ export function FileRow({ row, index }: FileRowProps) {
             </TableCell>
             {/* Document Type */}
             <TableCell>
-                <div className='overflow-visible'>
-                    <Select
-                        className='basic-single overflow-visible w-76'
-                        classNamePrefix='select'
-                        isSearchable={true}
-                        options={options}
-                        placeholder='Select Document Type'
-                        onChange={(value) => {
-                            if (!value) return
-                            dispatch(
-                                updateFileRow({ ...row, docType: value.value })
-                            )
-                        }}
-                    />
-                </div>
+                <FileTypeSelector
+                    options={options}
+                    currentOption={currentOption}
+                    onChange={(value) => {
+                        const newDocType = getDocumentRowType(value.value)
+                        dispatch(updateFileRow({ ...row, docType: newDocType }))
+                    }}
+                />
             </TableCell>
             {/* Assigned File */}
             <TableCell>
                 <div className='flex flex-row items-center gap-2'>
                     <FileInput
-                        onChange={(files) =>
-                            dispatch(updateFileRow({ ...row, file: files }))
+                        onSaved={(files) =>
+                            dispatch(updateFileRow({ ...row, fileIds: files }))
                         }
                     />
-                    <Checkmark checked={!!row.file} />
+                    <Checkmark
+                        checked={!!row.fileIds && row.fileIds.length > 0}
+                    />
                 </div>
             </TableCell>
             <TableCell>
@@ -74,13 +78,21 @@ export function FileRow({ row, index }: FileRowProps) {
                     <div className='flex flex-row items-center gap-2'>
                         <FileInput
                             title='Add Marad File'
-                            onChange={(files) =>
+                            onSaved={(files) =>
                                 dispatch(
-                                    updateFileRow({ ...row, maradFile: files })
+                                    updateFileRow({
+                                        ...row,
+                                        maradFileIds: files
+                                    })
                                 )
                             }
                         />
-                        <Checkmark checked={!!row.maradFile} />
+                        <Checkmark
+                            checked={
+                                !!row.maradFileIds &&
+                                row.maradFileIds.length > 0
+                            }
+                        />
                     </div>
                 ) : (
                     'No Marad Required'
@@ -96,7 +108,7 @@ export function FileRow({ row, index }: FileRowProps) {
             </TableCell>
             {/* File Preview */}
             <TableCell>
-                <FilePreviews files={files} />
+                <FilePreviews row={row} />
             </TableCell>
         </TableRow>
     )
