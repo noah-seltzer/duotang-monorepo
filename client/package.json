@@ -12,6 +12,7 @@
   "dependencies": {
     "@azure/msal-browser": "^4.19.0",
     "@azure/msal-react": "^3.0.17",
+    "@cloudflare/workers-types": "^4.20250813.0",
     "@cyntler/react-doc-viewer": "^1.17.0",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-popover": "^1.1.14",
