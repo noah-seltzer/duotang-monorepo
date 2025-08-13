@@ -8,6 +8,10 @@ import { Picker } from '../OneDrive/Picker'
 import { useMsal } from '@azure/msal-react'
 import { Login } from '../Auth/Login'
 import { Root as DialogRoot, Trigger as DialogTrigger, Portal as DialogPortal } from "@radix-ui/react-dialog";
+import type { OneDrivePickedFileResult } from '../../types/OneDrivePickedFileResult'
+import { combine } from '../../lib/onedrive'
+import type { SilentRequest } from '@azure/msal-browser'
+import { fileDownloadRequest } from '../../data/auth-config'
 interface FileInputProps {
     onChange?: (files: FileList | null) => void
     onSaved?: (fileIds: FileCacheData[]) => void
@@ -31,7 +35,6 @@ export function FileInput({
     const { instance } = useMsal()
 
     const fileInputRef = useRef<HTMLInputElement>(null)
-    const [showPicker, setShowPicker] = useState(false)
 
     const isLoggedIn = instance.getAllAccounts().length > 0
 
@@ -47,6 +50,32 @@ export function FileInput({
         }
     }
 
+    const processOnedriveFileSelected = async (command: OneDrivePickedFileResult) => {
+        const account = instance.getAllAccounts()[0]
+        command.items.forEach(async item => {
+            try {
+                const token = await instance.acquireTokenSilent({...fileDownloadRequest, account})
+                console.log('token', token)
+                const res = await fetch(`https://graph.microsoft.com/v1.0/me/drive/items/${item.id}/content`, {
+                    headers: {
+                        authorization: `Bearer ${token.accessToken}`
+                    }
+                })
+                console.log('res', res)
+            } catch (e) {
+                console.log('error fetching', e)
+                // console.log('error fetching', e)
+                // const res = await fetch(item.webDavUrl)
+                // console.log('res', res)
+            }
+        })
+    }
+
+    const onFilePicked = async (command: any) => {
+        console.log('file pick received', command)
+        processOnedriveFileSelected(command)
+    }
+
     
 
     return (
@@ -55,7 +84,6 @@ export function FileInput({
                 className='btn btn-gray rounded-full'
                 onClick={() => fileInputRef.current?.click()}
             >
-                {/* {title || 'Select File(s)'} */}
                 <FolderIcon />
             </button>
             <input
@@ -71,19 +99,14 @@ export function FileInput({
                         <DialogTrigger>
                             <button
                                 
-                                // onClick={() => setShowPicker(true)}
                                 >
                                 <OneDriveIcon />
                             </button>
                         </DialogTrigger>
                         <DialogPortal>
-                            <Picker />
+                            <Picker onPick={onFilePicked}/>
                         </DialogPortal>
                     </DialogRoot>
-                    {/* {showPicker && <>
-                        
-                    </>
-                    } */}
                 </>
             ): <Login />}
         </>
