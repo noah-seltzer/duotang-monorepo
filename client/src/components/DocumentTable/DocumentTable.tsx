@@ -36,6 +36,10 @@ export function DocumentTable(): React.JSX.Element {
         dispatch(addFileRow())
     }
 
+    const save = () => {
+        console.log('export')
+    }
+
     const rowElements = rows.map((r, i) => (
         <FileRow index={i + 1} key={r.id} row={r} />
     ))
@@ -49,9 +53,12 @@ export function DocumentTable(): React.JSX.Element {
             <div className='relative'>
                 <Table rowNames={rowNames} rows={rowElements} />
             </div>
-            <div className='flex justify-left mt-2'>
+            <div className='flex justify-between mt-2 w-full'>
                 <button className='btn btn-secondary' onClick={addRow}>
                     Add Row
+                </button>
+                <button className='btn btn-secondary' onClick={save}>
+                    Export
                 </button>
             </div>
         </div>
