@@ -1,5 +1,6 @@
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from '../../data/auth-config.ts'
+import { Button } from '../Skeleton/Button.tsx'
 
 export function Login(): React.JSX.Element {
     const { instance } = useMsal()
@@ -10,5 +11,5 @@ export function Login(): React.JSX.Element {
         })
     }
 
-    return <button onClick={handleLogin}>Login</button>
+    return <Button onClick={handleLogin}>Login</Button>
 }

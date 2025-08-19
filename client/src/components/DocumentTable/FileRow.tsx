@@ -1,16 +1,16 @@
 import { TableCell, TableRow } from '../Table/TableComponents'
 import { DOCUMENT_TYPES } from '../../data/document-list'
-import { FileInput } from '../Input/FileInput'
 import { FileNamePreview } from './FileNamePreview'
 import { FilePreviews } from './FilePreview'
 import type { FileInfo } from '../../types/FileInfo'
 import { classNames } from '../../lib/tw'
-import { Checkmark } from '../Icon/Checkmark'
 import { useAppDispatch, useAppSelector } from '../../store'
-import { selectFileRows, updateFileRow } from '../../store/fileListSlice'
+import { selectfileList, updateFileRow } from '../../store/fileListSlice'
 import { selectClientInfo } from '../../store/clientInfoSlice'
 import { FileTypeSelector } from './FileTypeSelector'
 import { getDocumentRowType } from '../../lib/files'
+import { FileUploadInput } from '../Input/FileUploadInput'
+import { StatusBar } from './StatusBar'
 
 export interface FileRowProps {
     row: FileInfo
@@ -18,13 +18,15 @@ export interface FileRowProps {
 }
 
 export function FileRow({ row, index }: FileRowProps) {
-    const clientInfo = useAppSelector(selectClientInfo)
-    const rows = useAppSelector(selectFileRows)
     const dispatch = useAppDispatch()
+    const clientInfo = useAppSelector(selectClientInfo)
+    const rows = useAppSelector(selectfileList)
+
+    const { fileIds, docType, maradFileIds } = row
+    const { slug, label } = docType
 
     const isComplete =
-        row.fileIds?.length > 0 &&
-        (row.docType.marad ? row.maradFileIds?.length > 0 : true)
+        fileIds?.length > 0 && (docType.marad ? maradFileIds?.length > 0 : true)
 
     const usedSlugs = rows.map((row) => row.docType.slug)
     const unusedFileTypes = DOCUMENT_TYPES.filter(
@@ -36,8 +38,8 @@ export function FileRow({ row, index }: FileRowProps) {
         label: docType.label
     }))
 
-    const currentOption = { value: row.docType.slug, label: row.docType.label }
-
+    const currentOption = { value: slug, label: label }
+    const hasMaradFiles = !!maradFileIds && maradFileIds.length > 0
     return (
         <TableRow>
             {/* Status */}
@@ -63,20 +65,24 @@ export function FileRow({ row, index }: FileRowProps) {
             {/* Assigned File */}
             <TableCell>
                 <div className='flex flex-row items-center gap-2'>
-                    <FileInput
-                        onSaved={(files) =>
-                            dispatch(updateFileRow({ ...row, fileIds: files }))
-                        }
-                    />
-                    <Checkmark
-                        checked={!!row.fileIds && row.fileIds.length > 0}
-                    />
+                    <div className='flex flex-col gap-2'>
+                        <FileUploadInput
+                            onSaved={(files) =>
+                                dispatch(
+                                    updateFileRow({ ...row, fileIds: files })
+                                )
+                            }
+                        />
+                        <StatusBar
+                            status={fileIds.length > 0 ? 'success' : 'error'}
+                        />
+                    </div>
                 </div>
             </TableCell>
             <TableCell>
-                {row.docType.marad ? (
-                    <div className='flex flex-row items-center gap-2'>
-                        <FileInput
+                {docType.marad ? (
+                    <div className='flex flex-col items-center gap-2'>
+                        <FileUploadInput
                             title='Add Marad File'
                             onSaved={(files) =>
                                 dispatch(
@@ -87,11 +93,8 @@ export function FileRow({ row, index }: FileRowProps) {
                                 )
                             }
                         />
-                        <Checkmark
-                            checked={
-                                !!row.maradFileIds &&
-                                row.maradFileIds.length > 0
-                            }
+                        <StatusBar
+                            status={hasMaradFiles ? 'success' : 'error'}
                         />
                     </div>
                 ) : (

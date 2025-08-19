@@ -4,7 +4,9 @@ import { Table } from '../Table/Table'
 import { DOCUMENT_TYPES } from '../../data/document-list'
 import { LoginOutButtons } from '../Auth/LoginOutButtons'
 import { useAppDispatch, useAppSelector } from '../../store'
-import { addFileRow, selectFileRows } from '../../store/fileListSlice'
+import { addFileRow, selectfileList } from '../../store/fileListSlice'
+import { Button } from '../Skeleton/Button'
+import { ExportButton } from '../Input/ExportButton'
 
 export const createBlankRow = (index: number = 0) => {
     return {
@@ -29,15 +31,11 @@ const rowNames = [
  * Outermost parent for the spreadsheet-like document table
  */
 export function DocumentTable(): React.JSX.Element {
-    const rows = useAppSelector(selectFileRows)
+    const rows = useAppSelector(selectfileList)
     const dispatch = useAppDispatch()
 
     const addRow = () => {
         dispatch(addFileRow())
-    }
-
-    const save = () => {
-        console.log('export')
     }
 
     const rowElements = rows.map((r, i) => (
@@ -54,12 +52,11 @@ export function DocumentTable(): React.JSX.Element {
                 <Table rowNames={rowNames} rows={rowElements} />
             </div>
             <div className='flex justify-between mt-2 w-full'>
-                <button className='btn btn-secondary' onClick={addRow}>
+                <Button onClick={addRow}>
                     Add Row
-                </button>
-                <button className='btn btn-secondary' onClick={save}>
-                    Export
-                </button>
+                </Button>
+                <ExportButton />
+                {/* <FileInput folder onChange={save} title='Export' /> */}
             </div>
         </div>
     )

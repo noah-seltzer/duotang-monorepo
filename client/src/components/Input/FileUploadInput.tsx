@@ -1,9 +1,7 @@
 import localforage from 'localforage'
-import { useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import type { FileCacheData } from '../../types/FileCacheData'
 import { OneDriveIcon } from '../Icon/OneDriveIcon'
-import { FolderIcon } from '../Icon/FolderIcon'
 import { Picker } from '../OneDrive/Picker'
 import { useMsal } from '@azure/msal-react'
 import { Login } from '../Auth/Login'
@@ -14,8 +12,8 @@ import {
 } from '@radix-ui/react-dialog'
 import type { OneDrivePickedFileResult } from '../../types/OneDrivePickedFileResult'
 import { fileDownloadRequest } from '../../data/auth-config'
-import { FileSelector } from './FileInput'
-interface FileInputProps {
+import { FileInput } from './FileInput'
+interface FileUploadInputProps {
     onChange?: (files: FileList | null) => void
     onSaved?: (fileIds: FileCacheData[]) => void
     title?: string
@@ -31,10 +29,10 @@ async function storeAllFiles(files: File[]) {
     return Promise.all(promises)
 }
 
-export function FileInput({
+export function FileUploadInput({
     onChange,
     onSaved
-}: FileInputProps): React.JSX.Element {
+}: FileUploadInputProps): React.JSX.Element {
     const { instance } = useMsal()
 
     const isLoggedIn = instance.getAllAccounts().length > 0
@@ -83,8 +81,8 @@ export function FileInput({
     }
 
     return (
-        <>
-            <FileSelector
+        <div className='flex flex-row items-center gap-1'>
+            <FileInput
                 onChange={(e) => processFileSelected(e.target.files)}
             />
             {isLoggedIn ? (
@@ -101,6 +99,6 @@ export function FileInput({
             ) : (
                 <Login />
             )}
-        </>
+        </div>
     )
 }

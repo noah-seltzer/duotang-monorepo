@@ -4,7 +4,7 @@ import { DOCUMENT_TYPES } from '../data/document-list'
 import type { RootState } from '.'
 
 export interface FileListState {
-    fileRows: FileInfo[]
+    fileList: FileInfo[]
 }
 
 export const createBlankRow = (index: number = 0) => {
@@ -19,7 +19,7 @@ export const createBlankRow = (index: number = 0) => {
 }
 
 const initialState: FileListState = {
-    fileRows: [createBlankRow(0)]
+    fileList: [createBlankRow(0)]
 }
 
 export const fileListSlice = createSlice({
@@ -27,23 +27,24 @@ export const fileListSlice = createSlice({
     initialState,
     reducers: {
         addFileRow: (state) => {
-            state.fileRows = [
-                ...state.fileRows,
-                createBlankRow(state.fileRows.length + 1)
+            state.fileList = [
+                ...state.fileList,
+                createBlankRow(state.fileList.length + 1)
             ]
         },
         updateFileRow: (state, action) => {
             const updatedRow = action.payload
-            state.fileRows = state.fileRows.map((row) =>
+            state.fileList = state.fileList.map((row) =>
                 row.id === updatedRow.id ? updatedRow : row
             )
         }
     }
 })
 
-export const selectFileRows = (state: RootState) => state.fileList.fileRows
+
+export const selectfileList = (state: RootState) => state.fileList.fileList
 export const selectUnusedFileTypes = (state: RootState) => {
-    const usedFileTypes = state.fileList.fileRows.map((row) => row.docType.slug)
+    const usedFileTypes = state.fileList.fileList.map((row) => row.docType.slug)
     return DOCUMENT_TYPES.filter((type) => !usedFileTypes.includes(type.slug))
 }
 
